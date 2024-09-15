@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Envio de Email</title>
+</head>
+<body>
+
+    <h1>Olá,${nome}</h1>
+    <br/>
+    <p>O seu código é <strong>${codigo}</strong> para recuperação da tua senha</p>
+
+</body>
+</html>	
+    

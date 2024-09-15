@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD"></div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/vendas/listar}">LISTA DE VENDAS</a>
+				<br><br>
+				<!-- ============================================================== -->
+				<div class="row">
+					<div class="col-12">
+						<div class="card card-body">
+							<h4 class="card-title">Funcionários</h4>
+							<form class="form-horizontal m-t-30" th:action="@{/stl/vendas/salvar}"
+								th:object="${vendas}" method="post" enctype="multipart/form-data">
+								<input type="hidden" th:field="*{id}">
+
+
+								<div class="form-row">
+
+									<div class="form-group col-md-6">
+										<label>Código de Barra <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" th:field="*{codigoProg}"
+											placeholder="código do produto">
+										<small class="form-text text-danger error-message"
+											th:if="${#fields.hasErrors('codigoProg')}"
+											th:errors="*{codigoProg}"></small>
+
+									</div>
+
+
+									<div class="form-group col-md-6">
+										<label>Nome <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" th:field="*{nome}"
+											placeholder="nome do produto">
+										<small class="form-text text-danger error-message"
+											th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+										<span id="mensagemErroNome" class="text-danger"></span>
+									</div>
+
+
+
+									<div class="form-group col-md-6">
+										<label for="example-email">Preço <span class="text-danger">*</span></label>
+										<input type="number" class="form-control" th:field="*{preco}">
+										<small class="form-text text-danger error-message"
+											th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}"></small>
+
+									</div>
+
+
+									<div class="form-group col-md-6">
+										<label for="example-email">QTD <span class="text-danger">*</span></label>
+										<input type="number" class="form-control" th:field="*{Qtd}">
+										<small class="form-text text-danger error-message"
+											th:if="${#fields.hasErrors('Qtd')}" th:errors="*{Qtd}"></small>
+
+									</div>
+
+
+
+									<div class="form-group col-md-6">
+										<label>Categoria <span class="text-danger">*</span></label>
+										<input type="text" class="form-control" th:field="*{categoria}"
+											placeholder="Categoria do Produto">
+										<small class="form-text text-danger error-message"
+											th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></small>
+										<span id="mensagemErroNome" class="text-danger"></span>
+									</div>
+								</div>
+
+
+								<div class="form-group ">
+									<div class="col-md-2">
+										<button class="btn btn-primary btn-md col-12">Salvar</button>
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+		</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+	<script th:src="@{/validacoesfront/funcionario.js}"></script>
+
+
+
+
+</body>
+
+</html>

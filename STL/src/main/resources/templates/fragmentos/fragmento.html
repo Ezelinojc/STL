@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Favicon icon -->
+	<link rel="icon" type="image/png" sizes="16x16" th:href="@{../../assets/images/favicon.png}">
+	<title>Comercial Dos Comercial</title>
+	<!-- Custom CSS -->
+	<link th:href="@{../../assets/libs/chartist/dist/chartist.min.css}" rel="stylesheet">
+	<!-- Custom CSS -->
+	<link th:href="@{../../dist/css/style.min.css}" rel="stylesheet">
+	<!--sweetalert2  para mensagem de sessão-->
+	<link rel="stylesheet" th:href="@{/webjars/sweetalert2/11.1.2/dist/sweetalert2.min.css}" type="text/css">
+
+	<!-- SCRIPT DO HTML2PDF-->
+	<!--lightbox2 para ampliar imagem-->
+	<link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css}">
+
+	<!-- DataTables CSS -->
+	<!-- Se não incluir, adicione o jQuery antes do DataTables -->
+
+	<link th:href="@{/assets/DataTables1/datatables.min.css}" rel="stylesheet">
+	<link th:href="@{/assets/DataTables1/datatables.css}" rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- ============================================================== -->
+	<!-- Preloader - style you can find in spinners.css -->
+	<!-- ============================================================== -->
+	<div class="preloader" th:fragment="preloader">
+		<div class="lds-ripple">
+			<div class="lds-pos"></div>
+			<div class="lds-pos"></div>
+		</div>
+	</div>
+	<!-- ============================================================== -->
+	<!-- Main wrapper - style you can find in pages.scss -->
+	<!-- ============================================================== -->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+		<!-- ============================================================== -->
+		<!-- Topbar header - style you can find in pages.scss -->
+		<!-- ============================================================== -->
+
+		<header class="topbar" data-navbarbg="skin6" th:fragment="CABECALHO">
+			<nav class="navbar top-navbar navbar-expand-md navbar-light">
+				<div class="navbar-header" data-logobg="skin5">
+					<!-- This is for the sidebar toggle which is visible on mobile only -->
+					<a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+						<i class="ti-menu ti-close"></i>
+					</a>
+					<!-- ============================================================== -->
+					<!-- Logo -->
+					<!-- ============================================================== -->
+					<div class="navbar-brand">
+						<a href="index.html" class="logo">
+							<!-- Logo icon -->
+							<b class="logo-icon">
+								<!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+								<!-- Dark Logo icon -->
+								<img src="../../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+								<!-- Light Logo icon -->
+								<img src="../../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+							</b>
+							<!--End Logo icon -->
+							<!-- Logo text -->
+							<span class="logo-text">
+								<!-- dark Logo text -->
+								<img src="../../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+								<!-- Light Logo text -->
+								<img src="../../assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
+							</span>
+						</a>
+					</div>
+					<!-- ============================================================== -->
+					<!-- End Logo -->
+					<!-- ============================================================== -->
+					<!-- ============================================================== -->
+					<!-- Toggle which is visible on mobile only -->
+					<!-- ============================================================== -->
+					<a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+						data-toggle="collapse" data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<i class="ti-more"></i>
+					</a>
+				</div>
+				<!-- ============================================================== -->
+				<!-- End Logo -->
+				<!-- ============================================================== -->
+				<div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin6">
+					<!-- ============================================================== -->
+					<!-- toggle and nav items -->
+					<!-- ============================================================== -->
+					<ul class="navbar-nav float-left mr-auto">
+						<!-- ============================================================== -->
+						<!-- Search -->
+						<!-- ============================================================== -->
+						<li class="nav-item search-box">
+							<a class="nav-link waves-effect waves-dark" href="javascript:void(0)">
+								<div class="d-flex align-items-center">
+									<i class="mdi mdi-magnify font-20 mr-1"></i>
+									<div class="ml-1 d-none d-sm-block">
+										<span>Pesquisar</span>
+									</div>
+								</div>
+							</a>
+							<form class="app-search position-absolute">
+								<input type="text" class="form-control" placeholder="Search &amp; enter">
+								<a class="srh-btn">
+									<i class="ti-close"></i>
+								</a>
+							</form>
+						</li>
+					</ul>
+					<!-- ============================================================== -->
+					<!-- Right side toggle and nav items -->
+					<!-- ============================================================== -->
+					<ul class="navbar-nav float-right">
+						<!-- ============================================================== -->
+						<!-- User profile and search -->
+						<!-- ============================================================== -->
+						<li class="nav-item dropdown" th:object="${logado.id}">
+							<a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href=""
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+
+								<span id="more-details" th:text="${logado.nome}"></span>
+
+								<img th:if="${logado.caminhoImg == null || logado.caminhoImg == ''}"
+									th:src="@{/assets/images/Sem Icone.jpg}" width="51" height="40"
+									class="rounded-circle" />
+
+
+								<img th:if="${logado.caminhoImg != null && logado.caminhoImg != ''}"
+									th:src="@{/stl/funcionario/foto/{imagem}(imagem=${logado.caminhoImg})}" width="51"
+									height="40" class="rounded-circle" />
+
+
+							</a>
+							<div class="dropdown-menu dropdown-menu-right user-dd animated">
+								<a class="dropdown-item" th:href="@{/stl/funcionario/perfil}"><i
+										class="ti-user m-r-5 m-l-5"></i>
+									Perfil</a>
+								<a class="dropdown-item" href="javascript:void(0)" onclick="ModalLogout()"><i
+										class="ti-wallet m-r-5 m-l-5"></i>
+									Sair</a>
+
+							</div>
+						</li>
+						<!-- ============================================================== -->
+						<!-- User profile and search -->
+						<!-- ============================================================== -->
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<!-- ============================================================== -->
+		<!-- End Topbar header -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<aside class="left-sidebar" data-sidebarbg="skin5" th:fragment="ASSIDE">
+			<!-- Sidebar scroll-->
+			<div class="scroll-sidebar">
+				<!-- Sidebar navigation-->
+				<nav class="sidebar-nav">
+					<ul id="sidebarnav">
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html"
+								aria-expanded="false">
+								<i class="mdi mdi-av-timer"></i>
+								<span class="hide-menu">Painel</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link"
+								th:href="@{/stl/funcionario/listar}" aria-expanded="false">
+								<i class="mdi mdi-account-network"></i>
+								<span class="hide-menu">Funcionário</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/clientes/listar}"
+								aria-expanded="false">
+								<i class="mdi mdi-arrange-bring-forward"></i>
+								<span class="hide-menu">Clientes</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/produtos/listar}"
+								aria-expanded="false">
+								<i class="mdi mdi-border-none"></i>
+								<span class="hide-menu">Produtos</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/vendas/listar}"
+								aria-expanded="false">
+								<i class="mdi mdi-face"></i>
+								<span class="hide-menu">Vendas</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="starter-kit.html"
+								aria-expanded="false">
+								<i class="mdi mdi-file"></i>
+								<span class="hide-menu">Blank</span>
+							</a>
+						</li>
+						<li class="sidebar-item">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html"
+								aria-expanded="false">
+								<i class="mdi mdi-alert-outline"></i>
+								<span class="hide-menu">404</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- End Sidebar navigation -->
+			</div>
+			<!-- End Sidebar scroll-->
+		</aside>
+		<!-- ============================================================== -->
+		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
+		<!-- ============================================================== -->
+		<!-- ============================================================== -->
+		<!-- Page wrapper  -->
+		<!-- ============================================================== -->
+		<div class="page-wrapper">
+			<!-- ============================================================== -->
+			<!-- Bread crumb and right sidebar toggle -->
+			<!-- ============================================================== -->
+			<div class="page-breadcrumb" th:fragment="DASHBOARD">
+				<div class="row">
+					<div class="col-5 align-self-center">
+						<h4 class="page-title">...</h4>
+					</div>
+					<div class="col-7 align-self-center">
+						<div class="d-flex align-items-center justify-content-end">
+							<nav aria-label="breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item">
+										<a th:href="@{/stl}">Inicio</a>
+									</li>
+									<li class="breadcrumb-item active" aria-current="page">Painel</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- footer -->
+			<!-- ============================================================== -->
+			<div th:fragment="RODAPE">
+				<footer class="footer text-center">
+					Todos os direitos reservados, desenvolvido por
+					<a href="https://wrappixel.com">EzelinoJc</a>.
+				</footer>
+			</div>
+			<!-- ============================================================== -->
+			<!-- End footer -->
+			<!-- ============================================================== -->
+		</div>
+		<!-- ============================================================== -->
+		<!-- End Page wrapper  -->
+		<!-- ============================================================== -->
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Wrapper -->
+	<!-- ============================================================== -->
+	<!-- ============================================================== -->
+	<!-- All Jquery -->
+	<!-- ============================================================== -->
+	<div th:fragment="LinkJs">
+		<script th:src="@{/assets/libs/jquery/dist/jquery.min.js}"></script>
+		<!-- Bootstrap tether Core JavaScript -->
+		<script th:src="@{/assets/libs/popper.js/dist/umd/popper.min.js}"></script>
+		<script th:src="@{/assets/libs/bootstrap/dist/js/bootstrap.min.js}"></script>
+		<!-- slimscrollbar scrollbar JavaScript -->
+		<script th:src="@{/assets/extra-libs/sparkline/sparkline.js}"></script>
+		<!--Wave Effects -->
+		<script th:src="@{/dist/js/waves.js}"></script>
+		<!--Menu sidebar -->
+		<script th:src="@{/dist/js/sidebarmenu.js}"></script>
+		<!--Custom JavaScript -->
+		<script th:src="@{/dist/js/custom.min.js}"></script>
+		<!--This page JavaScript -->
+		<!--chartis chart-->
+		<script th:src="@{/assets/libs/chartist/dist/chartist.min.js}"></script>
+		<script th:src="@{/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js}"></script>
+		<script th:src="@{/dist/js/pages/dashboards/dashboard1.js}"></script>
+		<!-- sweetalert2 para enviou de mensagem de sessão -->
+		<script th:src="@{/webjars/sweetalert2/11.1.2/dist/sweetalert2.min.js}"></script>
+
+		<!-- Ativar o Lightbox2 para ampliar a imagem no centro -->
+		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js}"></script>
+
+
+		<!-- Inicialize o DataTable com Tradução -->
+		<script th:src="@{/assets/DataTables1/datatables.min.js}"></script>
+		<script th:src="@{/assets/DataTables1/datatables.js}"></script>
+
+		<script th:inline="javascript">
+			function ModalLogout() {
+				Swal.fire({
+					icon: "question",
+					title: 'Atenção',
+					text: 'Tens Certeza que pretendes encerrar sessão?',
+					width: 400,
+					showCancelButton: true,
+					confirmButtonText: 'Sim',
+					confirmButtonColor: '#007BFF',
+					cancelButtonText: 'Não',
+					cancelButtonColor: '#DC3545',
+					customClass: {container: 'custom-swal-container'},
+				}).then((result) => {
+					if (result.isConfirmed) {
+						Swal.fire({
+							icon: 'success',
+							text: ' Sessão Encerrado com Sucesso',
+							width: 300,
+							showConfirmButton: false,
+							timer: 3000,
+							customClass: {container: 'custom-swal-container'},
+						});
+
+						setTimeout(function () {
+							window.location.href = '/logout';
+						}, 1500);
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Cancelado',
+							showConfirmButton: false,
+							width: 380,
+							timer: 2000,
+							customClass: {container: 'custom-swal-container'},
+						});
+					}
+				});
+			}
+		</script>
+
+
+
+		<script th:if="${mensagem}" type="text/javascript">
+			Swal.fire({
+				icon: 'success',
+				text: '[[${mensagem}]]',
+				showConfirmButton: false,
+				timer: 3000,
+			});
+		</script>
+
+		<script th:if="${mensagem1}">
+			Swal.fire({
+				icon: 'error',
+				title: 'Erro',
+				text: '[[${mensagem1}]]',
+				showConfirmButton: false,
+				timer: 3000,
+			});
+		</script>
+
+
+		<script>
+			$(document).ready(function () {
+				$('#minhaTabela').DataTable({
+					"language": {
+						"lengthMenu": " _MENU_ por página",
+						"search": "pesquisar",
+						"zeroRecords": "Nada encontrado - desculpe",
+						"info": "Mostrando página _PAGE_ de _PAGES_",
+						"infoEmpty": "Sem Registros na tabela",
+						"infoFiltered": "(filtrado do total de _MAX_ registros)"
+					}
+				});
+			});
+		</script>
+
+		<!-- Ativar o Lightbox2 -->
+		<script>
+			lightbox.option({
+				'resizeDuration': 100,
+				'wrapAround': true
+			});
+		</script>
+	</div>
+</body>
+
+</html>

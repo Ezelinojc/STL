@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD"></div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+				<div class="row">
+					<!-- column -->
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">Latest Sales</h4>
+							</div>
+							<div class="table-responsive">
+								<table class="table table-hover">
+									<thead>
+										<tr>
+											<th class="border-top-0">NAME</th>
+											<th class="border-top-0">STATUS</th>
+											<th class="border-top-0">DATE</th>
+											<th class="border-top-0">PRICE</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+
+											<td class="txt-oflo">Elite admin</td>
+											<td><span class="label label-success label-rounded">SALE</span> </td>
+											<td class="txt-oflo">April 18, 2017</td>
+											<td><span class="font-medium">$24</span></td>
+										</tr>
+										<tr>
+
+											<td class="txt-oflo">Real Homes WP Theme</td>
+											<td><span class="label label-info label-rounded">EXTENDED</span></td>
+											<td class="txt-oflo">April 19, 2017</td>
+											<td><span class="font-medium">$1250</span></td>
+										</tr>
+										<tr>
+
+											<td class="txt-oflo">Ample Admin</td>
+											<td><span class="label label-purple label-rounded">Tax</span></td>
+											<td class="txt-oflo">April 19, 2017</td>
+											<td><span class="font-medium">$1250</span></td>
+										</tr>
+										<tr>
+
+											<td class="txt-oflo">Medical Pro WP Theme</td>
+											<td><span class="label label-success label-rounded">Sale</span></td>
+											<td class="txt-oflo">April 20, 2017</td>
+											<td><span class="font-medium">-$24</span></td>
+										</tr>
+										<tr>
+
+											<td class="txt-oflo">Hosting press html</td>
+											<td><span class="label label-success label-rounded">SALE</span></td>
+											<td class="txt-oflo">April 21, 2017</td>
+											<td><span class="font-medium">$24</span></td>
+										</tr>
+										<tr>
+
+											<td class="txt-oflo">Digital Agency PSD</td>
+											<td><span class="label label-danger label-rounded">Tax</span> </td>
+											<td class="txt-oflo">April 23, 2017</td>
+											<td><span class="font-medium">-$14</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+		</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+
+
+
+</body>
+
+</html>

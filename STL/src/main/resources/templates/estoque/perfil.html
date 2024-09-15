@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+
+				<div class="row">
+					<!-- Column -->
+					<div class="col-lg-4 col-xlg-3 col-md-5">
+						<div class="card">
+							<div class="card-body">
+								<center class="m-t-30">
+
+									<img th:if="${logado.caminhoImg == null || logado.caminhoImg == ''}"
+										th:src="@{/assets/images/Sem Icone.jpg}" class="rounded-circle" width="150" />
+
+
+									<img th:if="${logado.caminhoImg != null && logado.caminhoImg != ''}"
+										th:src="@{/stl/funcionario/foto/{imagem}(imagem=${logado.caminhoImg})}"
+										class="rounded-circle" width="150" />
+
+
+									<h4 class="card-title m-t-10" th:text="${logado.nome}"></h4>
+									<h6 class="card-subtitle" th:text="${logado.role}"></h6>
+
+								</center>
+							</div>
+							<div>
+								<hr>
+							</div>
+							<div class="card-body"> <small class="text-muted">Correio Elêtronico </small>
+								<h6 th:text="${logado.email}"></h6> <small class="text-muted p-t-30 db">Telefone</small>
+								<h6 th:text="${logado.telefone}"></h6> <small
+									class="text-muted p-t-30 db">Endereço</small>
+								<h6>Moxico/Luena</h6>
+								<div class="map-box">
+									<iframe
+										src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
+										width="100%" height="150" frameborder="0" style="border:0"
+										allowfullscreen></iframe>
+								</div> <small class="text-muted p-t-30 db">Redes Socias</small>
+								<br />
+								<button class="btn btn-circle btn-secondary"><i class="mdi mdi-facebook"></i></button>
+								<button class="btn btn-circle btn-secondary"><i class="mdi mdi-twitter"></i></button>
+								<button class="btn btn-circle btn-secondary"><i
+										class="mdi mdi-youtube-play"></i></button>
+							</div>
+						</div>
+					</div>
+					<!-- Column -->
+					<!-- Column -->
+					<div class="col-lg-8 col-xlg-9 col-md-7">
+						<div class="card">
+							<div class="card-body">
+
+								<form class="form-horizontal form-material" th:action="@{/stl/funcionario/perfil}"
+									th:object="${funcionario}" method="post" enctype="multipart/form-data">
+									<input type="hidden" th:field="*{id}">
+									<input type="hidden" th:field="*{CaminhoImg}">
+									<input type="hidden" th:field="*{role}">
+									<input type="hidden" th:field="*{senha}">
+
+
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label>Nome <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" th:field="*{nome}"
+												placeholder="seu nome completo">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+											<span id="mensagemErroNome" class="text-danger"></span>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label for="example-email">Email <span class="text-danger">*</span></label>
+											<input type="email" class="form-control" th:field="*{email}"
+												placeholder="exemplp@gmail.com">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+											<span id="mensagemErroEmail" class="text-danger"></span>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label for="example-email">Telefone <span
+													class="text-danger">*</span></label>
+											<input type="number" class="form-control" th:field="*{telefone}"
+												placeholder="+244 ">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('telefone')}"
+												th:errors="*{telefone}"></small>
+											<span id="mensagemErroTelefone" class="text-danger"></span>
+										</div>
+
+
+										<div class="form-group col-md-4">
+											<label for="example-email">Login <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" th:field="*{login}"
+												placeholder="Seu nome de Úsuarios ">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></small>
+											<span id="mensagemErroNome" class="text-danger"></span>
+										</div>
+										<div class="form-group col-md-4">
+											<label>Password</label>
+											<input type="password" class="form-control" th:field="*{senha}"
+												placeholder="sua senha">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></small>
+
+										</div>
+
+
+
+										<div class="form-group col-md-4">
+											<label>Papel <span class="text-danger">*</span></label>
+											<select class="custom-select col-12" th:field="*{role}">
+												<option value="">Selecina o papel</option>
+												<option value="Gerente">Gerente</option>
+												<option value="Sub-Gerente">Sub-Gerente</option>
+												<option value="Funcionario">Funcionario</option>
+											</select>
+										</div>
+										<div class="form-group col-md-4">
+											<label>Imagem<span class="text-danger">*</span></label>
+											<input type="file" name="file" accept=".jpeg,.jpg, .png"
+												class="form-control">
+										</div>
+
+									</div>
+
+
+									<button type="submit" class="btn btn-primary btn-round waves-effect waves-light">
+										Actualizar
+									</button>
+
+									<button type="button" data-toggle="modal" data-target="#myModal"
+										class="btn btn-outline-primary btn-round waves-effect waves-light">
+										Trocar Senha</button></a>
+							</div>
+
+
+							</form>
+
+							<!--MODAL CADASTRAR -->
+							<div class="modal" th:id="myModal">
+								<div class="modal-dialog modal-xl">
+									<div class="modal-content">
+
+
+										<div class="modal-header"
+											style="background-color:rgb(0, 0, 64); color: rgb(255, 255, 255);">
+											<h5 class="modal-title"> Alterar Senha</h5>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+
+
+										<div class="modal-body">
+
+
+											<form th:action="@{/stl/funcionario/trocarSenha}" method="POST">
+
+												<input type="hidden" th:value="*{funcionario.id}" name="id">
+
+												<div class="form-group form-default col-md-12">
+													<label class="float-label">Senha Antiga
+													</label>
+													<input type="password" id="password" class="form-control"
+														placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+														aria-describedby="password" name="senhaAntiga" required />
+
+												</div>
+
+												<div class="form-group form-default col-md-12">
+													<label class="float-label">Nova
+														Senha</label>
+													<input type="password" id="password" class="form-control"
+														placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+														aria-describedby="password" name="senha" required />
+
+												</div>
+
+												<button type="submit"
+													class="btn btn-primary btn-round waves-effect waves-light">
+													Actualizar
+												</button>
+											</form>
+
+
+											<div style="text-align: left;">
+
+											</div>
+
+										</div>
+
+										<div class="modal-footer">
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- Column -->
+			</div>
+
+
+		</div>
+
+		<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+		<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+	</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+	
+
+
+</body>
+
+</html>
