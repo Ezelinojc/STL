@@ -39,11 +39,11 @@
 
 									<div class="form-group col-md-6">
 										<label>Código de Barra <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" th:field="*{codigoProg}"
+										<input type="text" class="form-control" th:field="*{codigoBarra}"
 											placeholder="código do produto">
 										<small class="form-text text-danger error-message"
-											th:if="${#fields.hasErrors('codigoProg')}"
-											th:errors="*{codigoProg}"></small>
+											th:if="${#fields.hasErrors('codigoBarra')}"
+											th:errors="*{codigoBarra}"></small>
 
 									</div>
 
@@ -69,10 +69,11 @@
 
 
 									<div class="form-group col-md-6">
-										<label for="example-email">QTD <span class="text-danger">*</span></label>
-										<input type="number" class="form-control" th:field="*{Qtd}">
+										<label for="example-email">QTD-Stok <span class="text-danger">*</span></label>
+										<input type="number" class="form-control" th:field="*{quantidadeStok}">
 										<small class="form-text text-danger error-message"
-											th:if="${#fields.hasErrors('Qtd')}" th:errors="*{Qtd}"></small>
+											th:if="${#fields.hasErrors('quantidadeStok')}"
+											th:errors="*{quantidadeStok}"></small>
 
 									</div>
 
@@ -88,25 +89,34 @@
 									</div>
 								</div>
 
-
-								<div class="form-group ">
-									<div class="col-md-2">
-										<button class="btn btn-primary btn-md col-12">Salvar</button>
-									</div>
+								<div class="form-group col-md-6">
+									<label>Marca<span class="text-danger">*</span></label>
+									<input type="text" class="form-control" th:field="*{marca}"
+										placeholder="Marca do Produto">
+									<small class="form-text text-danger error-message"
+										th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}"></small>
+									<span id="mensagemErroNome" class="text-danger"></span>
 								</div>
-
-							</form>
 						</div>
+
+						<div class="form-group ">
+							<div class="col-md-2">
+								<button class="btn btn-primary btn-md col-12">Salvar</button>
+							</div>
+						</div>
+
+						</form>
 					</div>
 				</div>
-
 			</div>
 
-			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
-
-
-			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
 		</div>
+
+		<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+		<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+	</div>
 
 	</div>
 	<!--FIM DO CORPO DO PROGAMA-->

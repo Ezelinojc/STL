@@ -14,11 +14,13 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-    private int codigoProg;
+    private String codigoBarra;
 	private String nome;
 	private Double preco;
-	private int Qtd;
-	private String categoria;
+	private String categoria;	
+	private String marca;
+	private Double quantidadeStok=0.;
+
 	
 
 }

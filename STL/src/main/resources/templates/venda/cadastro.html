@@ -38,17 +38,6 @@
 								<div class="form-row">
 
 									<div class="form-group col-md-6">
-										<label>Código de Barra <span class="text-danger">*</span></label>
-										<input type="text" class="form-control" th:field="*{codigoProg}"
-											placeholder="código do produto">
-										<small class="form-text text-danger error-message"
-											th:if="${#fields.hasErrors('codigoProg')}"
-											th:errors="*{codigoProg}"></small>
-
-									</div>
-
-
-									<div class="form-group col-md-6">
 										<label>Nome <span class="text-danger">*</span></label>
 										<input type="text" class="form-control" th:field="*{nome}"
 											placeholder="nome do produto">
@@ -70,9 +59,9 @@
 
 									<div class="form-group col-md-6">
 										<label for="example-email">QTD <span class="text-danger">*</span></label>
-										<input type="number" class="form-control" th:field="*{Qtd}">
+										<input type="number" class="form-control" th:field="*{quantidadeStok}">
 										<small class="form-text text-danger error-message"
-											th:if="${#fields.hasErrors('Qtd')}" th:errors="*{Qtd}"></small>
+											th:if="${#fields.hasErrors('quantidadeStok')}" th:errors="*{quantidadeStok}"></small>
 
 									</div>
 

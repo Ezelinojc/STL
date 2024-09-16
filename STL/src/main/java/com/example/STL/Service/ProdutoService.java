@@ -89,4 +89,10 @@ public class ProdutoService {
 		return mv;
 	}
 
+	
+	public void atualizarEstoque(Long id, Double novaQuantidade) {
+        Produto produto = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        produto.setQuantidadeStok(novaQuantidade);
+        produtoRepository.save(produto);
+    }
 }
