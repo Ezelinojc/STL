@@ -178,30 +178,44 @@
 							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html"
 								aria-expanded="false">
 								<i class="mdi mdi-av-timer"></i>
-								<span class="hide-menu">Painel</span>
+								<span class="hide-menu" th:href="@{/}">Painel</span>
 							</a>
+						</li>
+						<li class="sidebar-item">
+
 						</li>
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link"
-								th:href="@{/stl/funcionario/listar}" aria-expanded="false">
-								<i class="mdi mdi-account-network"></i>
-								<span class="hide-menu">Funcionário</span>
-							</a>
-						</li>
-						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/clientes/listar}"
-								aria-expanded="false">
+								th:href="@{/stl/clientes/listar}" aria-expanded="false">
 								<i class="mdi mdi-arrange-bring-forward"></i>
 								<span class="hide-menu">Clientes</span>
 							</a>
 						</li>
+
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/produtos/listar}"
-								aria-expanded="false">
+							<a class="sidebar-link waves-effect waves-dark sidebar-link"
+								th:href="@{/stl/produtos/listar}" aria-expanded="false">
 								<i class="mdi mdi-border-none"></i>
 								<span class="hide-menu">Produtos</span>
 							</a>
 						</li>
+						<ul class="pcoded-item pcoded-left-item">
+							<li class="sidebar-item">
+								<a class="sidebar-link waves-effect waves-dark sidebar-link"
+									th:href="@{/stl/funcionario/listar}" aria-expanded="true">
+									<i class="mdi mdi-border-none"></i>
+									<span class="hide-menu">Funcionário</span>
+								</a>
+							</li>
+
+							<li class="sidebar-item">
+								<a class="sidebar-link waves-effect waves-dark sidebar-link"
+									th:href="@{/stl/funcionario/atividade}" aria-expanded="true">
+									<i class="mdi mdi-border-none"></i>
+									<span class="hide-menu">Historico Usuário</span>
+								</a>
+							</li>
+						</ul>
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/vendas/listar}"
 								aria-expanded="false">
@@ -217,10 +231,10 @@
 							</a>
 						</li>
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html"
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/config}"
 								aria-expanded="false">
 								<i class="mdi mdi-alert-outline"></i>
-								<span class="hide-menu">404</span>
+								<span class="hide-menu">Configuração</span>
 							</a>
 						</li>
 					</ul>

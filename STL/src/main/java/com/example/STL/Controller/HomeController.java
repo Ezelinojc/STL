@@ -5,13 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.STL.Model.Config;
 import com.example.STL.Model.Funcionario;
 import com.example.STL.Repository.FuncionarioRepository;
+import com.example.STL.Service.ConfigServie;
 import com.example.STL.Service.FuncionarioService;
 import com.example.STL.Util.FuncionarioUtil;;
 
@@ -20,9 +25,12 @@ public class HomeController {
 
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-	
+
 	@Autowired
 	private FuncionarioService funcionarioService;
+
+	@Autowired
+	private ConfigServie configServie;
 
 	@Autowired
 	FuncionarioUtil funcionarioUtil;
@@ -58,6 +66,17 @@ public class HomeController {
 
 		}
 
+	}
+
+	@GetMapping("/stl/config")
+	public ModelAndView editarConfig(Config config) {
+		return this.configServie.config(config);
+	}
+
+	@PostMapping("/stl/config/salvar")
+	public ModelAndView perfil1(Config config, BindingResult br, RedirectAttributes rd,
+			@RequestParam("file") MultipartFile arquivo) {
+		return this.configServie.salvarConfig(config, br, rd, arquivo);
 	}
 
 //	##############################################################################################//

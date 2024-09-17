@@ -19,7 +19,7 @@ public class RegistroAtivadeService {
 	
 	public ModelAndView add(RegistroAtividade atividade) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("registro/salvar");
+		mv.setViewName("funcionario/registroAtividada");
 		mv.addObject("listaAtidade",this.atividadeRepository.findAll());
 		mv.addObject("logado", this.funcionarioUtil.funcionarioLogado());
 		return mv;
@@ -27,7 +27,7 @@ public class RegistroAtivadeService {
 	}
 	
 	public ModelAndView salvarReg(RegistroAtividade atividade) {
-		ModelAndView mv = new ModelAndView("registro/salvar");
+		ModelAndView mv = new ModelAndView("funcionario/registroAtividada");
 		this.atividadeRepository.save(atividade);
 		return mv;
 	}

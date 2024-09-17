@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,7 +24,8 @@ public class RegistroAtividade {
 	
 	
 	private String acao;
-	private String usuario;
+	@ManyToOne
+	private Funcionario usuario;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataHora;
 

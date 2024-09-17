@@ -85,7 +85,11 @@ public class VendaService {
         double valorComDesconto = aplicarDesconto(valorTotal, percentualDesconto); 
 
         // Atualiza a quantidade em estoque
-        
+        act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
+		registroRepository.save(act);
+		
+		
         Produto produto = venda.getProduto();
         produto.setQuantidadeStok(produto.getQuantidadeStok() - venda.getQtd());
         produtoRepository.save(produto);
@@ -135,10 +139,11 @@ public class VendaService {
 		if (venda != null) {
 			act.setAcao("Exclui a Venda " + venda.getCliente());
 			// PODE SER ÚTIL REGISTRAR OS DADOS DO USÚARIO QUE ESTÁ SENDO EXCLUIDO
-			act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
-			act.setDataHora(new Date());
-			registroRepository.save(act);
+	
 		}
+		act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
+		registroRepository.save(act);
 
 		vendaRepository.delete(venda);
 		rd.addFlashAttribute("mensagem2", "Dados eliminados com sucesso");

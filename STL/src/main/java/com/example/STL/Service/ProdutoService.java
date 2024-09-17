@@ -51,8 +51,8 @@ public class ProdutoService {
 			at.addFlashAttribute("mensagem", "Dados salvo com sucesso");
 			act.setAcao("Cadastrou o Produto  " + produtos.getNome());
 		}
-		act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
 		act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
 		registroRepository.save(act);
 		produtoRepository.save(produtos);
 		mv.setViewName("redirect:/stl/produtos/cadastrar");
@@ -78,11 +78,10 @@ public class ProdutoService {
 		if (Produto != null) {
 			act.setAcao("Exclui a Produto " + Produto.getNome());
 			// PODE SER ÚTIL REGISTRAR OS DADOS DO USÚARIO QUE ESTÁ SENDO EXCLUIDO
-			act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
-			act.setDataHora(new Date());
-			registroRepository.save(act);
 		}
-
+		act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
+		registroRepository.save(act);
 		produtoRepository.delete(Produto);
 		rd.addFlashAttribute("mensagem2", "Dados eliminados com sucesso");
 		mv.setViewName("redirect:/stl/produtos/listar");

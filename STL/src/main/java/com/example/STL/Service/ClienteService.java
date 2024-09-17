@@ -42,8 +42,6 @@ public class ClienteService {
 			return add(clientes);
 		}
 
-		
-
 		if (clientes.getId() != null) {
 			at.addFlashAttribute("mensagem", "Dados Actualizado com sucesso");
 			act.setAcao("Atualizou o Cliente " + clientes.getNome());
@@ -51,17 +49,18 @@ public class ClienteService {
 			at.addFlashAttribute("mensagem", "Dados salvo com sucesso");
 			act.setAcao("Cadastrou o Cliente  " + clientes.getNome());
 		}
-		act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
+
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
 		act.setDataHora(new Date());
 		registroRepository.save(act);
 		clienteRepository.save(clientes);
 		mv.setViewName("redirect:/stl/clientes/cadastrar");
 		return mv;
 	}
-	
+
 	public ModelAndView lista() {
 		ModelAndView mv = new ModelAndView("cliente/lista");
-		mv.addObject("logado",this.funcionarioUtil.funcionarioLogado());
+		mv.addObject("logado", this.funcionarioUtil.funcionarioLogado());
 		mv.addObject("EstudosList", this.clienteRepository.findAll());
 		return mv;
 	}
@@ -78,11 +77,13 @@ public class ClienteService {
 		if (cliente != null) {
 			act.setAcao("Exclui a Cliente " + cliente.getNome());
 			// PODE SER ÚTIL REGISTRAR OS DADOS DO USÚARIO QUE ESTÁ SENDO EXCLUIDO
-			act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
-			act.setDataHora(new Date());
-			registroRepository.save(act);
+
 		}
 
+		act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
+
+		registroRepository.save(act);
 		clienteRepository.delete(cliente);
 		rd.addFlashAttribute("mensagem2", "Dados eliminados com sucesso");
 		mv.setViewName("redirect:/stl/clientes/listar");

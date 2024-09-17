@@ -37,6 +37,7 @@ public class FuncionarioService {
 
 	@Autowired
 	private RegistroAtividadeRepository registroRepository;
+	RegistroAtividade act = new RegistroAtividade();
 
 	@Autowired
 	private EmailServiceRecupercaoSenha emailServiceRecupercaoSenha;
@@ -86,25 +87,21 @@ public class FuncionarioService {
 		if (imagem != null && !imagem.isEmpty()) {
 			funcionario.setCaminhoImg(String.valueOf(CarregarImagem.salvarIMG(CAMINHO, imagem)));
 		}
-		// PARA REGISTRAR QUEM CADASTROU OU ATUALIZOU UMA CONTA
-		RegistroAtividade act = new RegistroAtividade();
-		if (funcionario.getId() != null) {
-			act.setAcao("Atualizou o funcionario " + funcionario.getNome());
-		} else {
-			act.setAcao("Cadastrou o funcionario  " + funcionario.getNome());
-		}
-		act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
-		act.setDataHora(new Date());
-		registroRepository.save(act);
+		
+		
 
 		funcionario.setSenha(new BCryptPasswordEncoder().encode(funcionario.getSenha()));
 
 		if (funcionario.getId() != null) {
 			at.addFlashAttribute("mensagem", "Dados Actualizado com sucesso");
+			act.setAcao("Atualizou o funcionario " + funcionario.getNome());
 		} else {
 			at.addFlashAttribute("mensagem", "Dados salvo com sucesso");
+			act.setAcao("Cadastrou o funcionario  " + funcionario.getNome());
 		}
-
+		act.setDataHora(new Date());
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
+		registroRepository.save(act);
 		funcionarioRepository.save(funcionario);
 		emailServiceRecupercaoSenha.enviarEmail(funcionario.getEmail(), "IEIA",
 				"Foste cadastrado na IGREJA IEIA COM SUCESSO");
@@ -149,14 +146,17 @@ public class FuncionarioService {
 
 		if (funcionario != null) {
 			// REGISTRAR A AÇÃO DE EXCLUSÃO
-			RegistroAtividade act = new RegistroAtividade();
+		
 			act.setAcao("Exclui a Usuário " + funcionario.getNome());
 			// PODE SER ÚTIL REGISTRAR OS DADOS DO USÚARIO QUE ESTÁ SENDO EXCLUIDO
-			act.setUsuario(this.funcionarioUtil.funcionarioLogado().getNome());
-			act.setDataHora(new Date());
-			registroRepository.save(act);
+			
+			
 		}
+		act.setDataHora(new Date());
+		registroRepository.save(act);
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
 		funcionarioRepository.delete(funcionario);
+		
 		rd.addFlashAttribute("mensagem2", "Dados eliminados com sucesso");
 		mv.setViewName("redirect:/stl/funcionario/listar");
 		return mv;
@@ -239,17 +239,8 @@ public class FuncionarioService {
 		}
 	}
 
-	public ModelAndView perfil(Funcionario funcionario) {
-		ModelAndView mv = new ModelAndView("funcionario/perfil");
-		mv.addObject("logado", this.funcionarioUtil.funcionarioLogado());
-		mv.addObject("funcionario", funcionario);
-		return mv;
-	}
-
-	public ModelAndView edperfil() {
-		Funcionario user = this.funcionarioRepository.getById(this.funcionarioUtil.funcionarioLogado().getId());
-		return this.perfil(user);
-	}
+	
+	
 
 	public ModelAndView trocarSenhaPerfil(String senha, String SenhaAntiga, Long id, RedirectAttributes rd) {
 
@@ -278,6 +269,12 @@ public class FuncionarioService {
 		mv.setViewName("redirect:/stl/funcionario/perfil");
 		return mv;
 
+	}
+	public ModelAndView perfil(Funcionario funcionario) {
+		ModelAndView mv = new ModelAndView("funcionario/perfil");
+		mv.addObject("logado", this.funcionarioUtil.funcionarioLogado());
+		mv.addObject("funcionario", funcionario);
+		return mv;
 	}
 
 	public ModelAndView perfil(@Valid Funcionario funcionario, BindingResult br, RedirectAttributes rd,
@@ -341,7 +338,10 @@ public class FuncionarioService {
 		return new ModelAndView("redirect:/stl/funcionario/perfil");
 
 	}
-
+	public ModelAndView edperfil() {
+		Funcionario user = this.funcionarioRepository.getById(this.funcionarioUtil.funcionarioLogado().getId());
+		return this.perfil(user);
+	}
 	public ModelAndView alterarEstadofuncionario(Long id, String acao) {
 
 		ModelAndView mv = new ModelAndView();
@@ -356,6 +356,7 @@ public class FuncionarioService {
 		} else {
 			throw new IllegalArgumentException("Ação inválida: " + acao);
 		}
+		act.setUsuario(funcionarioUtil.funcionarioLogado());
 		funcionarioRepository.save(funcionario);
 		mv.setViewName("redirect:/stl/funcionario/listar");
 		return mv;

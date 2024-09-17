@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+
+				<div class="row">
+					<!-- Column -->
+					<div class="col-lg-4 col-xlg-3 col-md-5">
+						<div class="card">
+							<div class="card-body">
+								<center class="m-t-30">
+
+									<img th:if="${logado.caminhoImg == null || logado.caminhoImg == ''}"
+										th:src="@{/assets/images/Loja.png}" class="rounded-circle" width="150" />
+
+
+									<img th:if="${logado.caminhoImg != null && logado.caminhoImg != ''}"
+										th:src="@{/stl/config/foto/{imagem}(imagem=${listas.caminhoImg})}"
+										class="rounded-circle" width="150" />
+
+
+
+
+								</center>
+							</div>
+							<div>
+								<hr>
+							</div>
+							<div class="card-body"> <small class="text-muted">Correio Elêtronico </small>
+								<h6></h6> <small class="text-muted p-t-30 db">Telefone</small>
+								<h6></h6> <small class="text-muted p-t-30 db">Endereço</small>
+								<h6>Moxico/Luena</h6>
+								<small class="text-muted p-t-30 db">Redes Socias</small>
+								<br />
+								<button class="btn btn-circle btn-secondary"><i class="mdi mdi-facebook"></i></button>
+								<button class="btn btn-circle btn-secondary"><i class="mdi mdi-twitter"></i></button>
+								<button class="btn btn-circle btn-secondary"><i
+										class="mdi mdi-youtube-play"></i></button>
+							</div>
+						</div>
+					</div>
+					<!-- Column -->
+					<!-- Column -->
+					<div class="col-lg-8 col-xlg-9 col-md-7">
+						<div class="card">
+							<div class="card-body">
+
+								<form class="form-horizontal form-material" th:action="@{/stl/config/salvar}"
+									th:object="${config}" method="post" enctype="multipart/form-data">
+									<input type="hidden" th:field="*{id}">
+								
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label>Nome <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" th:field="*{nome}"
+												placeholder="Seu nome completo">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label>Email <span class="text-danger">*</span></label>
+											<input type="email" class="form-control" th:field="*{email}"
+												placeholder="exemplo@gmail.com">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label>Telefone <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" th:field="*{telefone}"
+												placeholder="+244 ">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('telefone')}"
+												th:errors="*{telefone}"></small>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label>Endereço <span class="text-danger">*</span></label>
+											<input type="text" class="form-control" th:field="*{endereco}"
+												placeholder="Endereço completo">
+											<small class="form-text text-danger error-message"
+												th:if="${#fields.hasErrors('endereco')}"
+												th:errors="*{endereco}"></small>
+										</div>
+
+										<div class="form-group col-md-4">
+											<label>Imagem <span class="text-danger">*</span></label>
+											<input type="file" name="file" accept=".jpeg,.jpg, .png"
+												class="form-control">
+										</div>
+									</div>
+
+									<button type="submit" class="btn btn-primary btn-round waves-effect waves-light">
+										Atualizar
+									</button>
+								</form>
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- Column -->
+				</div>
+
+
+			</div>
+
+			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+		</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+
+
+
+</body>
+
+</html>
