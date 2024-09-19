@@ -23,6 +23,8 @@ public class Venda {
 	private Date dataVenda = new Date();
 	private double valorTotal;
 	private double desconto;
+	
+	private double total;
 
 	@Transient
 	private double valorPago; 

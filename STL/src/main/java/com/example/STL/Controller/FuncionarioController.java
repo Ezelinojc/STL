@@ -6,6 +6,7 @@ import java.nio.file.NoSuchFileException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,10 +75,11 @@ public class FuncionarioController {
 	}
 
 	// EXCLUIR
-	@GetMapping("excluir/{id}")
-	public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes rd) {
-		return this.funcionarioSercvice.eliminar(id, rd);
-	}
+	/*
+	 * @GetMapping("excluir/{id}") public ModelAndView excluir(@PathVariable("id")
+	 * Long id, RedirectAttributes rd) { return
+	 * this.funcionarioSercvice.eliminar(id, rd); }
+	 */
 
 	@GetMapping("atividade")
 	public ModelAndView addAtivade(RegistroAtividade atividade) {
@@ -87,6 +89,18 @@ public class FuncionarioController {
 	@PostMapping("atividade")
 	public ModelAndView salvarAtivade(RegistroAtividade atividade) {
 		return this.registroAtividade.salvarReg(atividade);
+	}
+
+	// EXCLUIR
+	@GetMapping("excluirAtividade/{id}")
+	public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes rd) {
+		return this.registroAtividade.eliminar(id, rd);
+	}
+	
+	@PostMapping("imprimirpordata")
+	public ResponseEntity<?> relatorio(@RequestParam("dataInicial") String dataInicial,
+			@RequestParam("dataFinal") String dataFinal) {
+		return this.registroAtividade.relatorio(dataInicial, dataFinal);
 	}
 
 	@PostMapping("alterarEstado")
@@ -109,5 +123,8 @@ public class FuncionarioController {
 	public ModelAndView trocarSenha( String senha, @RequestParam("senhaAntiga")String SenhaAtinga, Long id, RedirectAttributes rd) {
 		return this.funcionarioSercvice.trocarSenhaPerfil(senha, SenhaAtinga, id, rd);
 	}
+	
+	
+
 
 }

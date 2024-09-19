@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+<style>
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		font-family: Arial, sans-serif;
+	}
+
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		background-color: #f5f5f5;
+	}
+
+	.container {
+		display: flex;
+		width: 100%;
+		background-color: white;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		padding: 20px;
+	}
+
+	.venta-container {
+		flex: 3;
+		margin-right: 20px;
+	}
+
+	.codigo-input {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 20px;
+		border: 2px solid #f3d6f0;
+		border-radius: 5px;
+	}
+
+	.productos-table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	.productos-table th,
+	.productos-table td {
+		padding: 10px;
+		text-align: center;
+		border: 1px solid #ddd;
+	}
+
+	.delete-btn {
+		background: none;
+		border: none;
+		font-size: 18px;
+		cursor: pointer;
+		color: red;
+	}
+
+	.resumen-container {
+		flex: 1;
+		background-color: #f8f8f8;
+		padding: 20px;
+		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.buscar-cliente input,
+	.nombre-telefono input {
+		width: 100%;
+		padding: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+
+	.total {
+		font-size: 24px;
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+
+	.btn-completar {
+		padding: 15px;
+		background-color: #7bd434;
+		color: white;
+		font-size: 16px;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+</style>
+</style>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/vendas/listar}">REGISTRAR VENDA
+					</a>
+				<br><br>
+
+				<div class="container">
+					<!-- Seção da Venda -->
+
+
+					<table class="productos-table">
+						<thead>
+							<tr>
+								<th>Nº</th>
+								
+								<th>QTD</th>
+								<th>Total</th>
+								<th>Forma Pagamento</th>
+								
+							</tr>
+						</thead>
+						<tbody id="produtosTabela">
+							<tr th:each="listas,n :${Ver}">
+								<td th:text="${n.index+1}"></td>
+								
+								<td th:text="${listas.Qtd}"></td>
+								<td th:text="${listas.total}"></td>
+								<td th:text="${listas.formaPagemento}"></td>
+								
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+
+				<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+				<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+			</div>
+
+		</div>
+		<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+		<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+
+		<!-- Script para atualizar o total e aplicar desconto -->
+		<script>
+
+			// Função para calcular o valor total de cada linha
+			function calcularLinha(input) {
+				const row = input.closest('tr');
+				const preco = parseFloat(row.querySelector('.preco').textContent.replace(' kz', '').replace(',', '.'));
+				const quantidade = parseInt(input.value);
+				const total = preco * quantidade;
+
+				row.querySelector('.total').textContent = total.toFixed(2) + ' Kz';
+
+				calcularTotalComDesconto(); // Atualiza o total geral
+			}
+
+			// Função para remover um produto da tabela
+			function removerProduto(button) {
+				const row = button.closest('tr');
+				row.remove();
+
+				calcularTotalComDesconto(); // Atualiza o total geral
+			}
+
+			// Função para calcular o total geral de todos os produtos
+			function calcularTotalComDesconto() {
+				const rows = document.querySelectorAll('#produtosTabela tr');
+				let total = 0;
+
+				rows.forEach(row => {
+					const totalLinha = parseFloat(row.querySelector('.total').textContent.replace(' Kz', '').replace(',', '.'));
+					total += totalLinha;
+				});
+
+				const desconto = parseFloat(document.getElementById('descontoInput').value || 0);
+				const valorComDesconto = total - (total * desconto / 100);
+
+				document.getElementById('totalVenda').textContent = valorComDesconto.toFixed(2) + ' Kz';
+			}
+
+			// Função para calcular o troco
+			function calcularTroco() {
+				const valorPago = parseFloat(document.getElementById('valorPagoInput').value || 0);
+				const total = parseFloat(document.getElementById('totalVenda').textContent.replace(' Kz', '').replace(',', '.'));
+
+				const troco = valorPago - total;
+				document.getElementById('troco').textContent = troco >= 0 ? troco.toFixed(2) + ' Kz' : '0 Kz';
+			}
+
+			// Adiciona um produto novo à tabela (Exemplo de como adicionar dinamicamente)
+			function adicionarProduto(produto) {
+				const tabela = document.getElementById('produtosTabela');
+				const novaLinha = document.createElement('tr');
+
+				novaLinha.innerHTML = `
+		        <td>${produto.codigoBarra}</td>
+		        <td>${produto.nome}</td>
+		        <td class="preco">${produto.preco.toFixed(2)} kz</td>
+		        <td><input type="number" class="qtd-input" min="1" value="1" onchange="calcularLinha(this)"></td>
+		        <td class="total">${produto.preco.toFixed(2)} Kz</td>
+		        <td><button type="button" class="btn-remove" onclick="removerProduto(this)">Remover</button></td>
+		    `;
+
+				tabela.appendChild(novaLinha);
+				calcularTotalComDesconto(); // Atualiza o total
+			}
+
+		</script>
+</body>
+
+</html>

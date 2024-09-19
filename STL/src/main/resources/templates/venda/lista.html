@@ -120,8 +120,8 @@
 			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
 				<!-- Ravenue - page-view-bounce rate -->
 				<!-- ============================================================== -->
-				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/produtos/cadastrar}">CADASTRAR
-					PRODUTO</a>
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/vendas/ver-produtos}">VER VENDAS
+					</a>
 				<br><br>
 
 				<div class="container">
@@ -129,13 +129,13 @@
 					<div class="venta-container">
 						<form id="formPesquisarProduto" th:action="@{/stl/vendas/pesquisar}" method="post">
 							<input type="text" class="codigo-input" name="codigo" id="codigoInput"
-								placeholder="Digite o código de barras e pressione enter">
+								placeholder="Pesquise por código, nome e marca e pressione enter">
 						</form>
 
 						<table class="productos-table">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th>Nº</th>
 									<th>Código</th>
 									<th>Nome</th>
 									<th>Preço</th>
@@ -144,14 +144,15 @@
 									<th></th>
 								</tr>
 							</thead>
-							<tbody id="tabelaProdutos">
-								<tr th:each="produto : ${produtos}">
+							<tbody id="produtosTabela">
+								<tr th:each="produto,n :${produtos}">
+									<td th:text="${n.index+1}"></td>
 									<td th:text="${produto.codigoBarra}"></td>
 									<td th:text="${produto.nome}"></td>
-									<td class="preco" th:text="${#numbers.formatDecimal(produto.preco, 2, 3)} +' kz'">
+									<td class="preco" th:text="${#numbers.formatDecimal(produto.preco, 2, 3)} + ' kz'">
 									</td>
 									<td><input type="number" class="qtd-input" min="1" value="1"
-											oninput="calcularTotal(this)"></td>
+											onchange="calcularLinha(this)"></td>
 									<td class="total" th:text="${#numbers.formatDecimal(produto.preco, 2, 3)} + ' Kz'">
 									</td>
 									<td><button type="button" class="btn-remove"
@@ -159,6 +160,7 @@
 								</tr>
 							</tbody>
 						</table>
+
 						<br /><br />
 
 						<form th:action="@{/stl/vendas/salvar}" th:object="${venda}" method="post">
@@ -178,7 +180,7 @@
 								<div class="form-group col-md-3">
 									<span>Desconto (%)</span>
 									<input type="number" name="desconto" class="form-control" value="0" min="0"
-										max="100" id="descontoInput" oninput="atualizarTotalGeral()">
+										max="100" id="descontoInput" oninput="calcularTotalComDesconto()">
 								</div>
 							</div>
 					</div>
@@ -187,16 +189,15 @@
 					<div class="resumen-container">
 						<div class="total">
 							<span>Troco</span>
-							<span class="monto-total" id="troco" name="troco">0 Kz</span>
+							<span class="monto-total" id="troco">0 Kz</span>
 						</div>
 						<div class="total">
 							<span>Total a pagar</span>
-							<span class="monto-total" id="totalVenda" name="totalVenda">0 Kz</span>
+							<span class="monto-total" id="totalVenda">0 Kz</span>
 						</div>
-						<button class="btn-completar" id="completarVenda" type="submit">COMPLETAR VENDA</button>
+						<button class="btn-completar" type="submit">COMPLETAR VENDA</button>
 					</div>
 				</div>
-
 
 			</div>
 			</form>
@@ -213,47 +214,72 @@
 
 
 	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
-	<script>
-		// Função para calcular o total por produto (quantidade * preço)
-		function calcularTotal(element) {
-			let row = element.closest('tr');
-			let preco = parseFloat(row.querySelector('.preco').innerText.replace(' kz', ''));
-			let qtd = parseFloat(element.value);
-			let total = preco * qtd;
 
-			row.querySelector('.total').innerText = total.toFixed(2) + ' Kz';
-			atualizarTotalGeral();
+	<!-- Script para atualizar o total e aplicar desconto -->
+	<script>
+
+		// Função para calcular o valor total de cada linha
+		function calcularLinha(input) {
+			const row = input.closest('tr');
+			const preco = parseFloat(row.querySelector('.preco').textContent.replace(' kz', '').replace(',', '.'));
+			const quantidade = parseInt(input.value);
+			const total = preco * quantidade;
+
+			row.querySelector('.total').textContent = total.toFixed(2) + ' Kz';
+
+			calcularTotalComDesconto(); // Atualiza o total geral
 		}
 
-		// Função para atualizar o total geral da venda, considerando o desconto
-		function atualizarTotalGeral() {
-			let totalVenda = 0;
-			let desconto = parseFloat(document.getElementById('descontoInput').value) || 0;
+		// Função para remover um produto da tabela
+		function removerProduto(button) {
+			const row = button.closest('tr');
+			row.remove();
+			calcularTotalComDesconto(); // Atualiza o total geral
+		}
 
-			document.querySelectorAll('.total').forEach(function (totalCell) {
-				totalVenda += parseFloat(totalCell.innerText.replace(' Kz', ''));
+		// Função para calcular o total geral de todos os produtos
+		function calcularTotalComDesconto() {
+			const rows = document.querySelectorAll('#produtosTabela tr');
+			let total = 0;
+
+			rows.forEach(row => {
+				const totalLinha = parseFloat(row.querySelector('.total').textContent.replace(' Kz', '').replace(',', '.'));
+				total += totalLinha;
 			});
 
-			let valorComDesconto = totalVenda - (desconto / 100) * totalVenda;
-			document.getElementById('totalVenda').innerText = valorComDesconto.toFixed(2) + ' Kz';
-			calcularTroco();
+			const desconto = parseFloat(document.getElementById('descontoInput').value || 0);
+			const valorComDesconto = total - (total * desconto / 100);
+
+			document.getElementById('totalVenda').textContent = valorComDesconto.toFixed(2) + ' Kz';
 		}
 
 		// Função para calcular o troco
 		function calcularTroco() {
-			let valorPago = parseFloat(document.getElementById('valorPagoInput').value) || 0;
-			let totalVenda = parseFloat(document.getElementById('totalVenda').innerText.replace(' Kz', '')) || 0;
-			let troco = valorPago - totalVenda;
+			const valorPago = parseFloat(document.getElementById('valorPagoInput').value || 0);
+			const total = parseFloat(document.getElementById('totalVenda').textContent.replace(' Kz', '').replace(',', '.'));
 
-			document.getElementById('troco').innerText = troco.toFixed(2) + ' Kz';
+			const troco = valorPago - total;
+			document.getElementById('troco').textContent = troco >= 0 ? troco.toFixed(2) + ' Kz' : '0 Kz';
 		}
 
-		// Função para remover um produto da lista
-		function removerProduto(button) {
-			let row = button.closest('tr');
-			row.remove();
-			atualizarTotalGeral();
+		// Adiciona um produto novo à tabela (Exemplo de como adicionar dinamicamente)
+		function adicionarProduto(produto) {
+			const tabela = document.getElementById('produtosTabela');
+			const novaLinha = document.createElement('tr');
+
+			novaLinha.innerHTML = `
+		        <td>${produto.codigoBarra}</td>
+		        <td>${produto.nome}</td>
+		        <td class="preco">${produto.preco.toFixed(2)} kz</td>
+		        <td><input type="number" class="qtd-input" min="1" value="1" onchange="calcularLinha(this)"></td>
+		        <td class="total">${produto.preco.toFixed(2)} Kz</td>
+		        <td><button type="button" class="btn-remove" onclick="removerProduto(this)">Remover</button></td>
+		    `;
+
+			tabela.appendChild(novaLinha);
+			calcularTotalComDesconto(); // Atualiza o total
 		}
+
 	</script>
 </body>
 

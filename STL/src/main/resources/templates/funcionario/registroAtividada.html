@@ -26,8 +26,7 @@
 			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
 				<!-- Ravenue - page-view-bounce rate -->
 				<!-- ============================================================== -->
-				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/funcionario/cadastrar}">CADASTRAR
-					FUNCIONÁRIO</a>
+				
 				<br><br>
 				<div class="row">
 					<!-- column -->
@@ -36,8 +35,67 @@
 							<div class="card-body">
 								<h4 class="card-title">Lista</h4>
 							</div>
+
+							<!--MODAL Imprimir com data-->
+							<div class="modal" th:id="myModal1">
+								<div class="modal-dialog modal-xl">
+									<div class="modal-content">
+
+										<div class="modal-body">
+											<form method="post" th:action="@{/stl/funcionario/imprimirpordata}"
+												target="_blank" onsubmit="return validarDatas();">
+
+												<div class="form-row">
+													<div class="form-group form-default col-md-6">
+														<label for="dataInicial">Data
+															Inicial:</label>
+														<input type="date" class="form-control" id="dataInicial"
+															name="dataInicial" required>
+														<small id="dataInicialErro"
+															class="form-text text-danger"></small>
+														<!-- Local da mensagem de erro -->
+													</div>
+													<div class="form-group form-default col-md-6">
+														<label for="dataFinal">Data Final:</label>
+														<input type="date" class="form-control" id="dataFinal"
+															name="dataFinal" required>
+														<small id="dataFinalErro" class="form-text text-danger"></small>
+														<!-- Local da mensagem de erro -->
+													</div>
+												</div>
+												<div class="form-group form-default col-md-12">
+													<button type="submit" class="btn btn-outline-primary btn-round">
+														<i class="bi bi-printer"></i> Imprimir
+													</button>
+												</div>
+
+											</form>
+
+
+
+											<div style="text-align: left;">
+
+											</div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<!--FIM MODAL IMPRIMIR-->
+
+
+
 							<div class="table-responsive">
 								<table class="table table-hover" id="minhaTabela">
+									<div class="form-group form-default col-md-2">
+										<label></label>
+										<button type="button" data-toggle="modal" data-target="#myModal1"
+											class="btn btn-outline-primary btn-round">
+											<i class="bi bi-printer"></i>
+											Imprimir P. Data </button>
+									</div>
 									<thead>
 										<tr>
 
@@ -118,7 +176,7 @@
 
 					})
 					setTimeout(function () {
-						window.location.href = '/stl/funcionario/excluir/' + membroId
+						window.location.href = '/stl/funcionario/excluirAtividade/' + membroId
 					}, 2000);
 
 				} else {
@@ -137,6 +195,40 @@
 	</script>
 
 
+
+	<script>
+		function validarDatas() {
+			const dataInicial = document.getElementById('dataInicial').value;
+			const dataFinal = document.getElementById('dataFinal').value;
+			const hoje = new Date().toISOString().split('T')[0]; // Data atual no formato 'YYYY-MM-DD'
+
+			let valido = true;
+
+			// Limpa mensagens de erro
+			document.getElementById('dataInicialErro').textContent = '';
+			document.getElementById('dataFinalErro').textContent = '';
+
+			// Verifica se a dataInicial é maior que a data atual
+			if (dataInicial > hoje) {
+				document.getElementById('dataInicialErro').textContent = 'A data inicial não pode ser maior que a data atual.';
+				valido = false;
+			}
+
+			// Verifica se a dataFinal é maior que a data atual
+			if (dataFinal > hoje) {
+				document.getElementById('dataFinalErro').textContent = 'A data final não pode ser maior que a data atual.';
+				valido = false;
+			}
+
+			// Verifica se a dataFinal é menor que a dataInicial
+			if (dataFinal < dataInicial) {
+				document.getElementById('dataFinalErro').textContent = 'A data final não pode ser menor que a data inicial.';
+				valido = false;
+			}
+
+			return valido;
+		}
+	</script>
 
 
 

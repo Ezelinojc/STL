@@ -27,11 +27,7 @@ public class VendaController {
 		return this.vendaService.add(venda);
 	}
 
-	/*
-	 * @PostMapping("salvar") public ModelAndView salvar(@Valid Venda venda,
-	 * BindingResult br, RedirectAttributes at) { return
-	 * this.vendaService.salvar(venda, br, at); }
-	 */
+
 
 	@PostMapping("salvar")
 	 
@@ -40,21 +36,21 @@ public class VendaController {
 	}
 
 	// EDITAR
-	@PostMapping("editar")
-	public ModelAndView editar(@RequestParam("id") Long id) throws NoSuchFileException {
-		return this.vendaService.editar(id);
-	}
+	/*
+	 * @PostMapping("editar") public ModelAndView editar(@RequestParam("id") Long
+	 * id) throws NoSuchFileException { return this.vendaService.editar(id); }
+	 */
 
 	@GetMapping("listar")
 	public ModelAndView lista() {
 		return this.vendaService.lista();
 	}
-
-	// EXCLUIR
-	@GetMapping("excluir/{id}")
-	public ModelAndView excluir(@PathVariable("id") Long id, RedirectAttributes rd) {
-		return this.vendaService.eliminar(id, rd);
+	
+	@GetMapping("ver-produto")
+	public ModelAndView listar() {
+		return this.vendaService.lista();
 	}
+
 
 	@PostMapping("pesquisar")
 	public ModelAndView pesquisarBI(@RequestParam("codigo") String codigo, RedirectAttributes rd) {

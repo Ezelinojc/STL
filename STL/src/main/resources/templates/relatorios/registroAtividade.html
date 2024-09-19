@@ -1,0 +1,155 @@
+<html lang="pt-ao" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Registro de Atividade</title>
+
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+
+		}
+
+		/* Tabela de dados principais */
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+			font-size: 10pt;
+		}
+		table,
+		th,
+		td {
+			border: 1px solid #F0FFFF;
+			min-width: 50px;
+			/* Ajuste ou remova essa linha */
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: center;
+		}
+
+		th {
+			background-color: #f2f2f2;
+		}
+
+		/* Estilos para seções */
+		.section-title {
+			background-color: #f2f2f2;
+			font-weight: bold;
+			text-align: center;
+			padding: 3px;
+		}
+
+		main {
+			margin: 20px;
+		}
+
+		h6 {
+			text-align: center;
+		}
+
+		img {
+			width: 50px;
+			height: 40px;
+
+		}
+
+		.footer {
+			position: absolute;
+			bottom: -40;
+			width: 100%;
+			font-size: 10px;
+			padding: 1px;
+			text-align: right;
+		}
+
+		.footer1 {
+			position: absolute;
+			bottom: -40;
+			width: 100%;
+			font-size: 10px;
+			padding: 1px;
+			text-align: center;
+		}
+
+		.footer2 {
+			position: absolute;
+			bottom: -40;
+			width: 100%;
+			font-size: 10px;
+			padding: 1px;
+			text-align: left;
+
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- ======= Main ======= -->
+	<main id="main" class="main">
+		<h6>
+			<img  alt="Foto do Membro">
+			<br>
+			FIRMA JOSE MWALUNDA
+		</h6>
+
+		<h5 style="text-align: center;">Rigistro de Atividade</h5>
+
+
+
+		<section class="section">
+			<div class="ficha-candidato">
+
+				<table>
+					<tr>
+						<th colspan="4" class="section-title">Feitos</th>
+					</tr>
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Ação:</th>
+							<th>Data da Ação</th>
+							<th>Hora da Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="listas:${registro}">
+							<td th:text="${listas.usuario.nome}"></td>
+							<td th:text="${listas.acao}"></td>
+							<td th:text="${#dates.format({listas.dataHora},'dd-MM-yyyy')}">
+							</td>
+							<td th:text="${#dates.format({listas.dataHora},'HH:mm')}">
+							</td>
+
+				</table>
+			</div>
+
+
+			<!-- Adicionando a data de processamento no footer -->
+			<div class="footer2">
+				<hr>
+				processador por :
+				<strong th:text="${nomeUsuario}"></strong>
+			</div>
+
+			<div class="footer1">
+				<strong th:text="${'Data'+#dates.format(#dates.createNow(), 'dd-MM-yyyy, HH:mm')+' min'}"></strong>
+			</div>
+
+			<div class="footer">
+				Desenvolvido por <strong>Ezelinojc@gmail.com</strong>
+			</div>
+
+		</section>
+	</main><!-- End #main -->
+
+</body>
+
+</html>

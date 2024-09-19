@@ -187,7 +187,7 @@
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link"
 								th:href="@{/stl/clientes/listar}" aria-expanded="false">
-								<i class="mdi mdi-arrange-bring-forward"></i>
+								<i class="mdi mdi-account-multiple"></i>
 								<span class="hide-menu">Clientes</span>
 							</a>
 						</li>
@@ -195,7 +195,7 @@
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link"
 								th:href="@{/stl/produtos/listar}" aria-expanded="false">
-								<i class="mdi mdi-border-none"></i>
+								<i class="mdi mdi-sale"></i>
 								<span class="hide-menu">Produtos</span>
 							</a>
 						</li>
@@ -211,7 +211,7 @@
 							<li class="sidebar-item">
 								<a class="sidebar-link waves-effect waves-dark sidebar-link"
 									th:href="@{/stl/funcionario/atividade}" aria-expanded="true">
-									<i class="mdi mdi-border-none"></i>
+									<i class="mdi mdi-subdirectory-arrow-right"></i>
 									<span class="hide-menu">Historico Usuário</span>
 								</a>
 							</li>
@@ -219,21 +219,15 @@
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/vendas/listar}"
 								aria-expanded="false">
-								<i class="mdi mdi-face"></i>
+								<i class="mdi mdi-store"></i>
 								<span class="hide-menu">Vendas</span>
 							</a>
 						</li>
-						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="starter-kit.html"
-								aria-expanded="false">
-								<i class="mdi mdi-file"></i>
-								<span class="hide-menu">Blank</span>
-							</a>
-						</li>
+						
 						<li class="sidebar-item">
 							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/config}"
 								aria-expanded="false">
-								<i class="mdi mdi-alert-outline"></i>
+								<i class="mdi mdi-settings"></i>
 								<span class="hide-menu">Configuração</span>
 							</a>
 						</li>
@@ -319,11 +313,10 @@
 		<!-- Ativar o Lightbox2 para ampliar a imagem no centro -->
 		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js}"></script>
 
-
 		<!-- Inicialize o DataTable com Tradução -->
 		<script th:src="@{/assets/DataTables1/datatables.min.js}"></script>
 		<script th:src="@{/assets/DataTables1/datatables.js}"></script>
-
+		
 		<script th:inline="javascript">
 			function ModalLogout() {
 				Swal.fire({
