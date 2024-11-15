@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title>Finalizar de compra</title>
+	<!-- Favicon-->
+	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+	<!-- Bootstrap icons-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+		integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link href="css/estilo.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+	<div th:replace="index :: corpo "></div>
+	<!-- Navigation-->
+
+
+	<div class="container">
+
+		<div class="row">
+		
+		<div class="col-12">
+		<h1> Informações do cliente que está logado na aplicação</h1>
+		</div>
+		
+		<div class="col-6">
+		
+		<select class="form-control col-md-3">
+		<option value="Cartão">Cartão</option>
+		<option value="Notas">Em Nota</option>
+		<option value="Tranferencia">Transferencia</option>
+		
+		</select>
+		
+		</div>
+
+			<div class="col-12">
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col"> </th>
+								<th scope="col">Produto</th>
+								<th scope="col">Estoque</th>
+								<th scope="col" class="text-center">Quantidade</th>
+								<th scope="col" class="text-right">Valor Unitário</th>
+								<th scope="col" class="text-right">Valor Total</th>
+								<th class="text-right"> Excluir Produto</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${listaItens}">
+								<td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+								<td th:text="${item.produto.descricao}"></td>
+								<td>Em stock</td>
+								<td><span th:text="${item.quantidade}"></span> &nbsp;&nbsp;
+								<td class="text-right" th:text="${item.ValorUnitario}">kz</td>
+								<td class="text-right" th:text="${item.valorTotal}">kz</td>
+								</td>
+
+							</tr>
+
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>Sub-Total</td>
+								<td class="text-right"><span th:text="${compra.valorTotal}"></span>&nbsp; kz</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>promoção</td>
+								<td class="text-right">0,00 kz</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td><strong>Total</strong></td>
+								<td class="text-right"><strong><span th:text="${compra.valorTotal}"></span>&nbsp; kz
+									</strong></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col mb-2">
+				<div class="row">
+					<div class="col-sm-12  col-md-6">
+						
+					</div>
+					
+					
+					<div class="col-sm-12 col-md-6 text-right">
+					<a class="btn btn-lg btn-block btn-success text-uppercase"
+										th:href="${finalizarCompracao}"
+										role="button">Confirmar a Compra</a>
+										
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">&copy; 2023 Ezelinojc@gmail.com Todos os direitos reservados.</p>
+		</div>
+	</footer>
+	<!-- Bootstrap core JS-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Core theme JS-->
+	<script src="js/scriptss.js"></script>
+	<script src="js/scriptss.js"></script>
+</body>
+
+</html>

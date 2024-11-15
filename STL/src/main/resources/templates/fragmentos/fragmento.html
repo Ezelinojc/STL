@@ -60,7 +60,7 @@
 					<!-- Logo -->
 					<!-- ============================================================== -->
 					<div class="navbar-brand">
-						<a href="index.html" class="logo">
+						<a th:href="@{/stl}" class="logo">
 							<!-- Logo icon -->
 							<b class="logo-icon">
 								<!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
@@ -175,69 +175,108 @@
 				<nav class="sidebar-nav">
 					<ul id="sidebarnav">
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" href="index.html"
+							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl}"
 								aria-expanded="false">
 								<i class="mdi mdi-av-timer"></i>
-								<span class="hide-menu" th:href="@{/}">Painel</span>
-							</a>
-						</li>
-						<li class="sidebar-item">
-
-						</li>
-						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link"
-								th:href="@{/stl/clientes/listar}" aria-expanded="false">
-								<i class="mdi mdi-account-multiple"></i>
-								<span class="hide-menu">Clientes</span>
+								<span class="hide-menu" th:href="@{/stl}">Painel</span>
 							</a>
 						</li>
 
+						<!-- Pessoas Section -->
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link"
-								th:href="@{/stl/produtos/listar}" aria-expanded="false">
+							<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+								aria-expanded="false">
+								<i class="mdi mdi-account"></i>
+								<span class="hide-menu">Pessoas</span>
+							</a>
+							<ul aria-expanded="false" class="collapse first-level">
+								<li class="sidebar-item">
+									<a th:href="@{/stl/funcionario/listar}" class="sidebar-link">
+
+										<i class="mdi mdi-account-plus"></i>
+										<span class="hide-menu">Funcionário</span>
+									</a>
+								</li>
+								<li class="sidebar-item">
+									<a th:href="@{/stl/clientes/listar}" class="sidebar-link">
+										<i class="mdi mdi-account-multiple"></i>
+										<span class="hide-menu">Cliente</span>
+									</a>
+								</li>
+
+								<li class="sidebar-item">
+									<a th:href="@{/stl/funcionario/atividade}" class="sidebar-link">
+										<i class="mdi mdi-account-multiple"></i>
+										<span class="hide-menu">Historico Usuário</span>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<!-- Grupos Section -->
+						<li class="sidebar-item">
+							<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
+								aria-expanded="false">
 								<i class="mdi mdi-sale"></i>
 								<span class="hide-menu">Produtos</span>
 							</a>
+							<ul aria-expanded="false" class="collapse first-level">
+								<li class="sidebar-item">
+									<a th:href="@{/stl/produtos/listar}" class="sidebar-link">
+										<i class="mdi mdi-sale"></i>
+										<span class="hide-menu"> Registrar Produtos</span>
+									</a>
+								</li>
+								<li class="sidebar-item">
+									<a th:href="@{/stl/produtoExpirados}" class="sidebar-link">
+										<i class="mdi mdi-view-list"></i>
+										<span class="hide-menu">Produtos Expirados</span>
+									</a>
+								</li>
+							</ul>
 						</li>
-						<ul class="pcoded-item pcoded-left-item">
-							<li class="sidebar-item">
-								<a class="sidebar-link waves-effect waves-dark sidebar-link"
-									th:href="@{/stl/funcionario/listar}" aria-expanded="true">
-									<i class="mdi mdi-border-none"></i>
-									<span class="hide-menu">Funcionário</span>
-								</a>
-							</li>
 
-							<li class="sidebar-item">
-								<a class="sidebar-link waves-effect waves-dark sidebar-link"
-									th:href="@{/stl/funcionario/atividade}" aria-expanded="true">
-									<i class="mdi mdi-subdirectory-arrow-right"></i>
-									<span class="hide-menu">Historico Usuário</span>
-								</a>
-							</li>
-						</ul>
+						<!-- Ensino Section -->
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/vendas/listar}"
+							<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)"
 								aria-expanded="false">
 								<i class="mdi mdi-store"></i>
 								<span class="hide-menu">Vendas</span>
 							</a>
+							<ul aria-expanded="false" class="collapse first-level">
+								<li class="sidebar-item">
+									<a th:href="@{/stl/vendas/listar}" class="sidebar-link">
+										<i class="mdi mdi-school"></i>
+										<span class="hide-menu">Vendas</span>
+									</a>
+								</li>
+
+								<li class="sidebar-item">
+									<a th:href="@{/stl/carrinho/add}" class="sidebar-link">
+										<i class="mdi mdi-store"></i>
+										<span class="hide-menu">Carrinho</span>
+									</a>
+								</li>
+							</ul>
 						</li>
-						
+
+
+
 						<li class="sidebar-item">
-							<a class="sidebar-link waves-effect waves-dark sidebar-link" th:href="@{/stl/config}"
-								aria-expanded="false">
+							<a href="#" class="sidebar-link">
 								<i class="mdi mdi-settings"></i>
-								<span class="hide-menu">Configuração</span>
+								<span class="hide-menu">Configurações</span>
 							</a>
 						</li>
+
+
 					</ul>
 				</nav>
 				<!-- End Sidebar navigation -->
 			</div>
 			<!-- End Sidebar scroll-->
 		</aside>
-		<!-- ============================================================== -->
+
 		<!-- End Left Sidebar - style you can find in sidebar.scss  -->
 		<!-- ============================================================== -->
 		<!-- ============================================================== -->
@@ -316,7 +355,7 @@
 		<!-- Inicialize o DataTable com Tradução -->
 		<script th:src="@{/assets/DataTables1/datatables.min.js}"></script>
 		<script th:src="@{/assets/DataTables1/datatables.js}"></script>
-		
+
 		<script th:inline="javascript">
 			function ModalLogout() {
 				Swal.fire({
@@ -383,6 +422,17 @@
 		<script>
 			$(document).ready(function () {
 				$('#minhaTabela').DataTable({
+					"language": {
+						"lengthMenu": " _MENU_ por página",
+						"search": "pesquisar",
+						"zeroRecords": "Nada encontrado - desculpe",
+						"info": "Mostrando página _PAGE_ de _PAGES_",
+						"infoEmpty": "Sem Registros na tabela",
+						"infoFiltered": "(filtrado do total de _MAX_ registros)"
+					}
+				});
+
+				$('#minhaTabela2').DataTable({
 					"language": {
 						"lengthMenu": " _MENU_ por página",
 						"search": "pesquisar",

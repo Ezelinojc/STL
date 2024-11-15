@@ -21,9 +21,7 @@ public class FuncionarioUtil {
 	    if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
 	        String login = authentication.getName();
 	        Funcionario funcionario  =  funcionarioRepository.findByLogin(login);
-
 	        if ( funcionario != null) {
-	            System.out.println("logado: " + funcionario.getNome());
 	        }
 	        return  funcionario;
 	    }

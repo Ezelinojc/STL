@@ -12,7 +12,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
 
 	@Query("SELECT c FROM Produto c WHERE c.codigoBarra = :codigo OR c.marca =:codigo  OR LOWER(c.nome) LIKE LOWER(CONCAT('%', :codigo, '%'))")
-	List<Produto> findByCdgProduto(@Param("codigo") String codigo);
+	Produto findByCdgProduto(@Param("codigo") String codigo);
 
 
 	

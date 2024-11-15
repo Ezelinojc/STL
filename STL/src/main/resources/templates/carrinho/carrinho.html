@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/produtos/cadastrar}">CADASTRAR
+					PRODUTO</a>
+				<br><br>
+				<div class="row">
+
+							<div class="col-12">
+								<div class="table-responsive">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th scope="col"> </th>
+												<th scope="col">Produto</th>
+												<th scope="col">Estoque</th>
+												<th scope="col" class="text-center">Quantidade</th>
+													<th scope="col" class="text-right">Valor Unitário</th>
+												<th scope="col" class="text-right">Valor Total</th>
+												<th class="text-right"> Excluir Produto</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="item : ${listaItens}">
+												<td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+												<td th:text="${item.produto.nome}"></td>
+												<td>Em stock</td>
+												<td><span th:text="${item.quantidade}"></span> &nbsp;&nbsp;
+
+
+													<a class="btn btn-sm btn-success"
+														th:href="@{/alterarQuantidade/{id}/{acao}(id=${item.produto.id},acao=${1})}"
+														role="button"><i class="fa fa-plus"></i></a>&nbsp;&nbsp;
+
+													<a class="btn btn-sm btn-danger"
+														th:href="@{/stl/carrinho/alterarQuantidade/{id}/{acao}(id=${item.produto.id},acao=${0})}"
+														role="button"><i class="fa fa-minus"></i></a>
+														
+														<td class="text-right" th:text="${item.ValorUnitario}">kz</td>
+												  <td class="text-right" th:text="${item.valorTotal}">kz</td>
+												</td>
+												
+
+												<td class="text-right" ><a class="btn btn-sm btn-danger"
+														th:href="@{/stl/carrinho/removerProduto/{id}(id=${item.produto.id})}" role="button"><i
+															class="fa fa-trash"></i></a></td>
+											</tr>
+
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>Sub-Total</td>
+												<td class="text-right"><span th:text="${venda.valorTotal}"></span>&nbsp; kz</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											    <td></td>
+												<td>promoção</td>
+												<td class="text-right">0,00 kz</td>
+											</tr>
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td><strong>Total</strong></td>
+												<td class="text-right"><strong><span th:text="${venda.valorTotal}"></span>&nbsp; kz </strong></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="col mb-2">
+								<div class="row">
+									<div class="col-sm-12  col-md-6">
+										<button class="btn btn-block btn-light">Continue comprando</button>
+									</div>
+									<div class="col-sm-12 col-md-6 text-right">
+										<button class="btn btn-lg btn-block btn-success text-uppercase">Finalizar a Compra</button>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+			</div>
+
+			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+		</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+	<script th:inline="javascript">
+
+		function exibirModal(botao) {
+			var membroId = botao.getAttribute('membroId')
+
+
+			Swal.fire({
+				title: "Tens Certeza?",
+				text: "Voce quer eliminar!",
+				icon: "warning",
+				showCancelButton: true,
+				cancelButtonText: 'Não',
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Sim,Excluir",
+				customClass: {container: 'custom-swal-container'},
+			}).then((result) => {
+				if (result.isConfirmed) {
+					Swal.fire({
+						title: "Eliminado!",
+						showConfirmButton: false,
+						text: "Eliminado com Sucesso!",
+						customClass: {container: 'custom-swal-container'},
+						icon: "success",
+
+					})
+					setTimeout(function () {
+						window.location.href = '/stl/produtos/excluir/' + membroId
+					}, 2000);
+
+				} else {
+					Swal.fire({
+						icon: "warning",
+						showConfirmButton: false,
+						text: "Cancelado",
+						customClass: {container: 'custom-swal-container'},
+						timer: 1500
+					});
+				}
+			});
+
+		}
+
+	</script>
+
+
+
+
+
+</body>
+
+</html>

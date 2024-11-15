@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<div class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/vendas/ver-produtos}">VER VENDAS
+				</a>
+				<br><br>
+
+				<div class="container">
+					<div class="row">
+						<div class="col-8">
+							<h2 class="mb-4">Realização de Venda</h2>
+
+							<form id="vendaForm" action="/venda/processar" method="POST">
+								<!-- Nome do Cliente -->
+								<div class="row">
+									<div class="form-group col-6">
+										<form id="formPesquisarProduto" th:action="@{/stl/cle/pesquisar}"
+											method="post">
+											<label for="clienteNome">Nome do Cliente</label>
+											<input type="text" class="form-control" name="codigo" id="codigoInput"
+												placeholder="">
+										</form>
+									</div>
+
+									<div class="form-group col-6">
+										<form id="formPesquisarProduto" th:action="@{/stl/vendas/pesquisar}"
+											method="post">
+											<label for="clienteNome">Produto</label>
+											<input type="text" class="form-control" name="codigo" id="codigoInput"
+												placeholder="Pesquise por código, nome e marca e pressione enter">
+										</form>
+									</div>
+								</div>
+								<!-- Tabela de Produtos -->
+								<h4>Itens da Venda</h4>
+								<table class="table table-bordered" id="tabelaProdutos">
+									<thead>
+										<tr>
+											<th>Produto</th>
+											<th>Preço Unitário (kz)</th>
+											<th>Quantidade</th>
+											<th>Total (kz)</th>
+											<th>Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+										<!-- Linhas de produtos serão adicionadas aqui -->
+									</tbody>
+								</table>
+								<div class="row">
+
+									<div class="form-group col-3">
+										<label for="valorPago">Valor Pago (kz)</label>
+										<input type="number" class="form-control" id="valorPago" name="valorPago"
+											min="0" step="0.01" required oninput="atualizarTotais()">
+									</div>
+									<div class="form-group col-3">
+										<label for="desconto">Desconto (%)</label>
+										<input type="number" class="form-control" id="desconto" name="desconto" min="0"
+											max="100" value="0" oninput="atualizarTotais()">
+									</div>
+
+									<div class="form-group col-3">
+										<label for="desconto">Forma de pagamento </label>
+										<select class="form-control">
+											<option value="Cartão">Cartão</option>
+											<option value="Dinheiro">Dinheiro </option>
+										</select>
+									</div>
+
+									<div class="form-group col-3">
+										<label for="valorPago">Imposto (%)</label>
+										<select class="form-control">
+											<option value="Cartão">0.07%</option>
+											<option value="Dinheiro">0.140%</option>
+										</select>
+									</div>
+								</div>
+								<button type="button" class="btn btn-secondary mb-3"
+									onclick="adicionarProduto()">Adicionar Produto</button>
+						</div>
+
+						<div class="col-4">
+							<!-- Calculos: Desconto, Total, Imposto e Troco -->
+
+
+							<div id="detalhesVenda">
+								<h4>Detalhes da Venda</h4>
+								<p>Total: <span id="totalVenda">kz 0,00</span></p>
+								<p>Imposto (10%): <span id="imposto">kz 0,00</span></p>
+								<p>Total com Desconto e Imposto: <span id="totalComImposto">kz 0,00</span></p>
+								<p>Troco: <span id="troco"> kz 0,00</span></p>
+							</div>
+
+							<!-- Botão para Processar a Venda -->
+							<button type="submit" class="btn btn-primary">Processar Venda</button>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+			<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+		</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+
+	<!-- Script para atualizar o total e aplicar desconto -->
+	<script>
+		function carregarProduto() {
+			const produto = document.getElementById("produto");
+			const selectedOption = produto.options[produto.selectedIndex];
+			document.getElementById("codigo").value = selectedOption.getAttribute("data-codigo");
+			document.getElementById("valorUnitario").value = selectedOption.getAttribute("data-preco");
+			document.getElementById("tipo").value = selectedOption.getAttribute("data-tipo");
+			calcularTotal();
+		}
+
+		function calcularTotal() {
+			const quantidade = parseFloat(document.getElementById("quantidade").value);
+			const valorUnitario = parseFloat(document.getElementById("valorUnitario").value);
+			const valorTotal = quantidade * valorUnitario;
+			document.getElementById("valorTotal").value = valorTotal.toFixed(2);
+		}
+
+		function adicionarProduto() {
+			const tabela = document.getElementById("tabelaProdutos").querySelector("tbody");
+			const produto = document.getElementById("produto");
+			const nomeProduto = produto.options[produto.selectedIndex].text;
+			const quantidade = document.getElementById("quantidade").value;
+			const preco = document.getElementById("valorTotal").value;
+
+			const novaLinha = document.createElement("tr");
+			novaLinha.innerHTML = `
+	                <td>${quantidade}</td>
+	                <td>${nomeProduto}</td>
+	                <td>R$ ${preco}</td>
+	                <td><button type="button" onclick="removerProduto(this)">Remover</button></td>
+	            `;
+
+			tabela.appendChild(novaLinha);
+			atualizarTotalPedido();
+		}
+
+		function removerProduto(botao) {
+			const linha = botao.parentNode.parentNode;
+			linha.remove();
+			atualizarTotalPedido();
+		}
+
+		function atualizarTotalPedido() {
+			const tabela = document.getElementById("tabelaProdutos").querySelectorAll("tbody tr");
+			let total = 0;
+			tabela.forEach(row => {
+				const preco = parseFloat(row.cells[2].innerText.replace("R$ ", ""));
+				total += preco;
+			});
+			document.getElementById("totalPedido").innerText = total.toFixed(2);
+		}
+
+		function finalizarVenda() {
+			alert("Venda finalizada!");
+			// Aqui você pode adicionar a lógica para salvar a venda no backend
+		}
+
+		// Carrega os detalhes do produto ao carregar a página
+		carregarProduto();
+	</script>
+</body>
+
+</html>

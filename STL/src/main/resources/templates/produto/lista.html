@@ -34,18 +34,19 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">Cliente</h4>
+								<h4 class="card-title">Produtos</h4>
 							</div>
 							<div class="table-responsive">
 								<table class="table table-hover" id="minhaTabela">
 									<thead>
 										<tr>
-											<th class="border-top-0">Código</th>
+											<th>Código</th>
 											<th class="border-top-0">Nome</th>
 											<th class="border-top-0">Marca</th>
 											<th class="border-top-0">Preço</th>
 											<th class="border-top-0">Qtd</th>
 											<th class="border-top-0">Categoria</th>
+											<th class="border-top-0">D Expiração</th>
 											<th class="border-top-0">Ação</th>
 										</tr>
 									</thead>
@@ -55,9 +56,10 @@
 											<td th:text="${listas.codigoBarra}"></td>
 											<td th:text="${listas.nome}"></td>
 											<td th:text="${listas.marca}"></td>
-											<td th:text="${listas.preco}"></td>
+											<td th:text="${listas.preco}+' Kz'"></td>
 											<td th:text="${listas.quantidadeStok}"></td>
 											<td th:text="${listas.categoria}"></td>
+											<td th:text="${#temporals.format(listas.dataExpiracao, 'dd-MM-yyyy')}"></td>
 
 											<td>
 
