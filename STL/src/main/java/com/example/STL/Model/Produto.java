@@ -1,7 +1,7 @@
 package com.example.STL.Model;
 
-import java.time.LocalDate;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +20,7 @@ public class Produto {
 	private Long id;
 	private String codigoBarra;
 	private String nome;
-	private Double preco =0.0;
+	private Double preco ;
 	private String categoria;
 	private String marca;
 	private int quantidadeStok;

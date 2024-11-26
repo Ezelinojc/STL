@@ -24,6 +24,7 @@ public class ClienteService {
 
 	@Autowired
 	private RegistroAtividadeRepository registroRepository;
+	
 	RegistroAtividade act = new RegistroAtividade();
 
 	public ModelAndView add(Cliente clientes) {

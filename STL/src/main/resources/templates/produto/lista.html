@@ -74,12 +74,18 @@
 													</form>
 
 													<a class="btn btn-outline-danger" style="border: none;"
-														th:attr="membroId=${listas.id}" onclick="exibirModal(this)">
-														<i class="m-r-10 mdi mdi-delete mdi-24px"></i>
+														th:href="@{/adicionarCarrinho/{id}/(id=${listas.id})}">
+														<i class="m-r-10 mdi mdi-delete mdi-24px"></i></a>
+														
+														
+
+														<a class="btn btn-outline-danger" style="border: none;"
+															th:attr="membroId=${listas.id}" onclick="exibirModal(this)">
+															<i class="m-r-10 mdi mdi-delete mdi-24px"></i></a>
 												</div>
 
 
-												</a>
+												
 											</td>
 
 										</tr>

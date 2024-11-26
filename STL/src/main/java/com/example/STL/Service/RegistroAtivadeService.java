@@ -89,7 +89,7 @@ public class RegistroAtivadeService {
 		finalHtml = springTemplateEngine.process("/relatorios/registroAtividade", dataContext);
 		String fileName = "RelatóriosAtividade" + Datainiciale + ".pdf";
 
-		htmLpdf.htmlTopdf(finalHtml, fileName);
+		//htmLpdf.htmlTopdf(finalHtml, fileName);
 		return RelatproPdfHmtl.verPdf(fileName);
 	}
 

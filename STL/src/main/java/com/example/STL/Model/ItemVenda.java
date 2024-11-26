@@ -1,6 +1,5 @@
 package com.example.STL.Model;
 
-import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,14 +17,13 @@ public class ItemVenda {
 	private Long id;
 	
 	private int quantidade;
-	private BigDecimal precoUnitario;
-	private BigDecimal total;
+	private Double precoUnitario=0.;
+	private Double valortotal=0.;
 	
 	@ManyToOne
     private Produto produto;
 	
-	public void calcularSubtotal() {
-		this.total = this.precoUnitario.multiply(new BigDecimal(this.quantidade));
-	}
-
+	@ManyToOne
+	private Venda venda;
+	
 }

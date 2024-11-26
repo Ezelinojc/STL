@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="https://www.thymeleaf.org">
+
+<head th:replace="fragmentos/fragmento :: head"></head>
+
+<body>
+	<!-- Pre-loader start -->
+	<div th:replace="fragmentos/fragmento :: preloader"></div>
+	<!-- Pre-loader end -->
+
+	<!-- INICIO DO CORPO DO PROGRAMA-->
+	<div id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full"
+		data-boxed-layout="full">
+
+		<header th:replace="fragmentos/fragmento :: CABECALHO"></header>
+
+		<!-- ============================================================== -->
+		<aside th:replace="fragmentos/fragmento :: ASSIDE"></aside>
+
+		<div class="page-wrapper">
+			<div th:replace="fragmentos/fragmento :: DASHBOARD">
+
+			</div>
+
+			<!-- ========================== AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+			<form class="container-fluid" th:fragment="INFORMACAOAQUI">
+				<!-- Ravenue - page-view-bounce rate -->
+				<!-- ============================================================== -->
+				<a class="btn btn-primary btn-md col-12" th:href="@{/stl/clientes/cadastrar}">FINALIZAR COMPRA
+				</a>
+				<br><br>
+				<div class="row">
+					<!-- column -->
+					<div class="col-8">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">Finalizar Compra</h4>
+								<form th:action="@{/stl/finalizarCompra}" method="post">
+
+									<div class="row">
+										<div class="form-group col-6">
+											<div class="form-row">
+												<div class="form-group col-6">
+													<label for="clienteNome">Nome do Cliente</label>
+													<input type="text" class="form-control" name="codigo"
+														id="codigoInput" placeholder="Nome do Cliente">
+												</div>
+												<div class="form-group col-6">
+													<label for="clienteNome">Telefone</label>
+													<input type="text" class="form-control" name="codigo"
+														id="codigoInput" placeholder="telefone">
+												</div>
+											</div>
+
+										</div>
+
+										<!--<div class="form-group col-6">
+										<form th:action="@{/stl/adicionarCarrinho}" method="post">
+											<label for="clienteNome">Produto</label>
+											<input type="text" class="form-control" name="codigo" id="codigoInput"
+												placeholder="Pesquise por código, nome e marca e pressione enter">
+										</form>
+									</div>-->
+									</div>
+
+
+									<div class="table-responsive">
+										<table class="table table-hover">
+											<thead>
+												<tr>
+													<th>Nº</th>
+													<th>Nome</th>
+													<th>Etoque</th>
+													<th>Preço (kz)</th>
+													<th>QTD</th>
+													<th>Total (kz)</th>
+													<th>Ação</th>
+
+												</tr>
+											</thead>
+											<tbody id="produtosTableBody">
+												<tr th:each="item, n : ${ListaItem}">
+													<td th:text="${n.index+1}"></td>
+													<td th:text="${item.produto.nome}"></td>
+													<td th:text="${item.produto.quantidadeStok}"></td>
+													<td th:text="${#numbers.formatDecimal(item.precoUnitario, 2, 2)}">
+													</td>
+
+													<td>
+														<span th:text="${item.quantidade}"></span>
+
+													</td>
+													<td
+														th:text="${#numbers.formatDecimal(item.valortotal, 2, 2)} + ' Kz'">
+													</td>
+
+
+												</tr>
+											</tbody>
+
+										</table>
+
+										<div class="form-row">
+											<div class="form-group col-md-3">
+												<label for="example-email">Valor Pago (kz) <span
+														class="text-danger">*</span></label>
+												<input type="number" class="form-control" min="0" step="0.01" readonly>
+											</div>
+
+											<div class="form-group col-md-3">
+												<label for="example-email">Desconto (%) <span
+														class="text-danger">*</span></label>
+												<input type="number" class="form-control" name="desconto" min="0"
+													max="100" value="0" readonly>
+											</div>
+
+
+											<div class="form-group col-md-3">
+												<label for="example-email">Forma de Pagamento <span
+														class="text-danger">*</span></label>
+												<select class="form-control">
+													<option value="Cartão">Cartão</option>
+													<option value="Dinheiro">Dinheiro </option>
+													<option value="Transfêrencia">Transfêrencia </option>
+												</select>
+											</div>
+											<div class="form-group col-md-3">
+												<label>Imposto</label>
+												<select class="form-control">
+													<option value="Iva">0.07%</option>
+													<option value="iva">0.140%</option>
+												</select>
+											</div>
+
+
+
+										</div>
+
+									</div>
+							</div>
+
+						</div>
+			</form>
+		</div>
+
+
+		<div class="col-lg-4">
+
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">Detalhes da Venda</h4>
+					<div class="d-flex align-items-center flex-row m-t-30">
+
+						<div class="m-l-10">
+							<small>Detalhes da Venda</small>
+						</div>
+					</div>
+					<table class="table no-border mini-table m-t-20">
+						<tbody>
+							<tr>
+								<td class="text-muted">Subtotal</td>
+								<td class="font-medium"><span
+										th:text="${#numbers.formatDecimal(venda.valorTotal, 2, 2)} + ' Kz'"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-muted">Imposto</td>
+								<td class="font-medium">83%</td>
+							</tr>
+							<tr>
+								<td class="text-muted">Total com Desconto</td>
+								<td class="font-medium">28.56 in</td>
+							</tr>
+
+							<tr>
+								<td class="text-muted">Troco</td>
+								<td class="font-medium">
+								</td>
+							</tr>
+							<tr>
+								<td class="text-muted">Total da Venda</td>
+								<td class="font-medium"><span
+										th:text="${#numbers.formatDecimal(venda.valorTotal, 2, 2)} + ' Kz'"></span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="form-group col-md-12">
+						<div class="col-sm-12">
+							<a class="btn btn-sm btn btn-success" role="button">CONFIRMAR A COMPRA<i
+									class="fa fa-minus"></i></a>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
+
+
+	<div th:replace="fragmentos/fragmento :: RODAPE"></div>
+	</div>
+
+	</div>
+	<!--FIM DO CORPO DO PROGAMA-->
+
+
+
+
+	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
+
+
+
+
+</body>
+
+</html>

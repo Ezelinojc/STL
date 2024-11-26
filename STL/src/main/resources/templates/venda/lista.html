@@ -215,105 +215,85 @@
 		<!-- ========================== FIM AS INFORMAÇÕES DEVE SER COLOCADA AQUI==================================== -->
 
 
-		<div th:replace="fragmentos/fragmento :: RODAPE"></div>
 	</div>
 
 
 	<!--FIM DO CORPO DO PROGAMA-->
 
 
+	<div th:replace="fragmentos/fragmento :: RODAPE"></div>
 
 
 	<div th:replace="fragmentos/fragmento :: LinkJs"></div>
 	<script>
-		// Taxa de imposto para o cálculo
-		const TAXA_IMPOSTO = 0.10;
+		
 
-		function calcularLinha(input) {
-			const row = input.closest('tr');
-			const preco = parseFloat(row.querySelector('.preco').textContent.replace(' kz', '').replace(',', '.'));
-			const quantidade = parseInt(input.value);
-			const total = preco * quantidade;
-			row.querySelector('.total').textContent = `${total.toFixed(2)} Kz`;
-			calcularTotalVenda();
-		}
+		document.addEventListener("DOMContentLoaded", () => {
+		    const tabelaProdutosBody = document.querySelector("#produtosTableBody");
 
-		function calcularTotalVenda() {
-			const rows = document.querySelectorAll('#produtosTableBody tr');
-			let totalVenda = 0;
-			rows.forEach(row => {
-				const total = parseFloat(row.querySelector('.total').textContent.replace(' Kz', '').replace(',', '.'));
-				totalVenda += total;
-			});
+		    // Função para adicionar um produto à tabela
+		    function adicionarProduto(produto) {
+		        const row = document.createElement("tr");
 
-			const imposto = totalVenda * TAXA_IMPOSTO;
-			const totalComImposto = totalVenda + imposto;
+		        const total = produto.preco * produto.quantidade;
 
-			document.getElementById('totalVenda').textContent = `kz ${totalVenda.toFixed(2)}`;
-			document.getElementById('imposto').textContent = `kz ${imposto.toFixed(2)}`;
-			document.getElementById('totalComDesconto').textContent = `kz ${totalComImposto.toFixed(2)}`;
-			calcularTroco();
-		}
+		        row.innerHTML = `
+		            <td>${tabelaProdutosBody.rows.length + 1}</td>
+		            <td>${produto.codigo}</td>
+		            <td>${produto.nome}</td>
+		            <td class="preco">${produto.preco.toFixed(2)} kz</td>
+		            <td>
+		                <input type="number" class="qtd-input" value="${produto.quantidade}" min="1" onchange="calcularLinha(this)">
+		            </td>
+		            <td class="total">${total.toFixed(2)} kz</td>
+		            <td><button type="button" class="btn-remove" onclick="removerProduto(this)">Remover</button></td>
+		        `;
 
-		function calcularTotalComDesconto() {
-			const totalVenda = parseFloat(document.getElementById('totalVenda').textContent.replace('kz ', '').replace(',', '.'));
-			const desconto = parseFloat(document.getElementById('desconto').value) || 0;
-			const valorComDesconto = totalVenda - (totalVenda * desconto / 100);
-			const imposto = valorComDesconto * TAXA_IMPOSTO;
-			const totalComImposto = valorComDesconto + imposto;
+		        tabelaProdutosBody.appendChild(row);
+		    }
 
-			document.getElementById('totalComDesconto').textContent = `kz ${totalComImposto.toFixed(2)}`;
-			calcularTroco();
-		}
+		    // Função simulada para pesquisar produto
+		    window.pesquisarProduto = function() {
+		        const codigoProduto = document.querySelector("#codigoInput").value;
+		        if (codigoProduto === "") return alert("Por favor, insira o código ou nome do produto.");
 
-		function calcularTroco() {
-			const totalComDesconto = parseFloat(document.getElementById('totalComDesconto').textContent.replace('kz ', '').replace(',', '.'));
-			const valorPago = parseFloat(document.querySelector('input[name="valorPago"]').value) || 0;
-			const troco = valorPago - totalComDesconto;
+		        // Simulação de busca do produto (em um cenário real, você faria uma requisição AJAX)
+		        const produto = {
+		            codigo: codigoProduto,
+		            nome: "Produto Exemplo",
+		            preco: Math.random() * 100, // Preço aleatório para exemplo
+		            quantidade: 1
+		        };
 
-			document.getElementById('troco').textContent = `kz ${troco >= 0 ? troco.toFixed(2) : 0.00}`;
-		}
+		        adicionarProduto(produto);
+		    };
 
-		function completarVenda() {
-			document.getElementById("formCompletarVenda").submit();
-		}
+		    // Função para calcular o total de uma linha
+		    window.calcularLinha = function(input) {
+		        const row = input.closest("tr");
+		        const preco = parseFloat(row.querySelector(".preco").textContent);
+		        const quantidade = parseInt(input.value);
+		        const total = preco * quantidade;
+		        row.querySelector(".total").textContent = total.toFixed(2) + " kz";
+		    };
 
-		function removerProduto(button) {
-			const row = button.closest('tr');
-			row.remove();
-			calcularTotalVenda();
-		}
+		    // Função para remover um produto da tabela
+		    window.removerProduto = function(button) {
+		        const row = button.closest("tr");
+		        row.remove();
 
-		function adicionarProduto(codigo, nome, preco) {
-			const tabela = document.querySelector('.productos-table tbody');
-			const novaLinha = document.createElement('tr');
+		        // Atualiza a numeração dos produtos na tabela
+		        atualizarNumeracao();
+		    };
 
-			novaLinha.innerHTML = `
-		        <td></td>
-		        <td>${codigo}</td>
-		        <td>${nome}</td>
-		        <td class="preco">${preco} Kz</td>
-		        <td><input type="number" class="qtd-input" min="1" value="1" onchange="calcularLinha(this)"></td>
-		        <td class="total">${preco} Kz</td>
-		        <td><button type="button" class="btn-remove" onclick="removerProduto(this)">Remover</button></td>
-		    `;
-
-			tabela.appendChild(novaLinha);
-			atualizarNumeracao();
-		}
-
-		function atualizarNumeracao() {
-			const linhas = document.querySelectorAll('.productos-table tbody tr');
-			linhas.forEach((linha, index) => {
-				linha.querySelector('td:first-child').textContent = index + 1;
-			});
-		}
-
-		function removerProduto(botao) {
-			const linha = botao.closest('tr');
-			linha.remove();
-			atualizarNumeracao();
-		}
+		    // Função para atualizar a numeração dos produtos na tabela
+		    function atualizarNumeracao() {
+		        const rows = tabelaProdutosBody.querySelectorAll("tr");
+		        rows.forEach((row, index) => {
+		            row.querySelector("td").textContent = index + 1;
+		        });
+		    }
+		});
 
 	</script>
 
